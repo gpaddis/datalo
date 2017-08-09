@@ -9,11 +9,9 @@ class IsbnParser extends Parser
      * @param  string $separators
      * @return array
      */
-    public static function split($isbns = '', $separators = '')
+    public static function split($isbns = '')
     {
-        $separators = empty($separators) ? '\s|;=' : $separators;
-
-        $allIsbns = preg_split("/[{$separators}]/", $isbns);
+        $allIsbns = preg_split("/[^\d-x]/i", $isbns);
 
         $nonEmptyIsbns = array_values(array_filter($allIsbns));
 

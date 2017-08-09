@@ -2,5 +2,5 @@
 
 abstract class Parser
 {
-    public static function split($identifiers, $separators) {}
+    public static function split($identifiers) {}
 }
