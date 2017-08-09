@@ -1,0 +1,23 @@
+{
+    "name": "gianpiero.addis/dataloader-tools",
+    "description": "Conversion tools to generate ISBN and ISSN lists for the SFX dataloader.",
+    "type": "project",
+    "require": {
+        "league/csv": "^8.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gianpiero Addis",
+            "email": "gianpiero.addis@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Dataloader\\": "src"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.3"
+    }
+}
