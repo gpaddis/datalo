@@ -14,7 +14,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Dataloader\\": "src"
+            "Dataloader\\": "src",
+            "Spielplatz\\": "spielplatz"
         }
     },
     "require-dev": {
