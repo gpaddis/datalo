@@ -1,20 +1,21 @@
 <?php namespace Dataloader\Parsers;
 
 use League\Csv\Reader;
-use Dataloader\Validators\Validator;
 
 abstract class Parser
 {
+    protected $reader;
     protected $validator;
 
-    public function __construct(Reader $reader, Validator $validator)
+    public function __construct(Reader $reader)
     {
-        $this->validator = $validator;
+        $this->reader = $reader;
+        $this->validator = null;
     }
 
-    public static function make(Reader $reader, Validator $validator)
+    public static function make(Reader $reader)
     {
-        return new static($validator);
+        return new static($reader);
     }
 
     public static function split($identifiers)
@@ -28,17 +29,19 @@ abstract class Parser
      * @param  Validator $validator
      * @return array                An array of the columns containing identifiers.
      */
-    public static function analyzeRow($row, Validator $validator)
+    public function analyzeRow($pointer = 0)
     {
         $columns = [];
 
-        if (empty($row)) return [];
+        ! empty($pointer) ?: $pointer = 0;
+
+        $row = $this->reader->fetchOne($pointer);
 
         foreach ($row as $column => $value) {
             $splitValues = static::split($value);
 
             foreach ($splitValues as $identifier) {
-                if ($validator->validate($identifier)) {
+                if ($this->validator->validate($identifier)) {
                     array_push($columns, $column);
                 }
             }
@@ -47,20 +50,25 @@ abstract class Parser
         return static::deduplicateArray($columns);
     }
 
-    public static function findColumns(Reader $reader, Validator $validator, $iterations = 10)
+    /**
+     * Iterate the reader X times and collect the column index(es) containing identifiers.
+     *
+     * @param  integer $iterations  The number of rows to iterate. Default: 10.
+     * @return array                The columns where an identifier was found.
+     */
+    public function findIdentifierColumns($iterations = 10)
     {
-        $totalColumns = [];
+        $allColumns = [];
 
         for ($pointer = 0; $pointer < $iterations; $pointer++) {
-            $row = $reader->fetchOne($pointer);
-            $columns = static::analyzeRow($row, $validator);
+            $columns = $this->analyzeRow($pointer);
 
             foreach ($columns as $column) {
-                array_push($totalColumns, $column);
+                array_push($allColumns, $column);
             }
         }
 
-        return static::deduplicateArray($totalColumns);
+        return static::deduplicateArray($allColumns);
     }
 
     /**
