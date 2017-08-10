@@ -27,7 +27,7 @@ class IsbnValidator extends Validator
             return 13;
         }
 
-        if (preg_match('/\d{9}[0-9xX]/i', $isbn)) {
+        if (preg_match('/\d{9}[0-9x]/i', $isbn)) {
             return 10;
         }
 
@@ -47,18 +47,22 @@ class IsbnValidator extends Validator
         // Validate the ISBN-13 checkDigit.
         if ($this->verifyScheme($isbn) == 13) {
             $check = 0;
+
             for ($i = 0; $i < 13; $i += 2) {
                 $check += substr($isbn, $i, 1);
             }
+
             for ($i = 1; $i < 12; $i += 2) {
                 $check += 3 * substr($isbn, $i, 1);
             }
+
             return $check % 10 === 0;
         }
 
         // Validate the ISBN-10 checkDigit.
         if ($this->verifyScheme($isbn) == 10) {
             $check = 0;
+
             for ($i = 0; $i < 10; $i++) {
                 if ($isbn[$i] === 'X') {
                     $check += 10 * intval(10 - $i);
@@ -66,6 +70,7 @@ class IsbnValidator extends Validator
                     $check += intval($isbn[$i]) * intval(10 - $i);
                 }
             }
+
             return $check % 11 === 0;
         }
 

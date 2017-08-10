@@ -43,7 +43,7 @@ class IsbnParserLocateTest extends TestCase
     /** @test */
     public function it_collects_all_columns_containing_ISBNs_over_multiple_rows()
     {
-        $columns = $this->parser->findIdentifierColumns();
+        $columns = $this->parser->findIndexes();
 
         $this->assertEquals([14, 15, 16, 17, 18, 19, 20, 21], $columns);
     }
@@ -51,7 +51,7 @@ class IsbnParserLocateTest extends TestCase
     /** @test */
     public function it_accepts_a_custom_number_of_iterations()
     {
-        $columns = $this->parser->findIdentifierColumns(15);
+        $columns = $this->parser->findIndexes(15);
 
         $this->assertEquals([14, 15, 16, 17, 18, 19, 20, 21], $columns);
     }

@@ -31,23 +31,23 @@ abstract class Parser
      */
     public function analyzeRow($pointer = 0)
     {
-        $columns = [];
+        $indexes = [];
 
         ! empty($pointer) ?: $pointer = 0;
 
         $row = $this->reader->fetchOne($pointer);
 
-        foreach ($row as $column => $value) {
-            $splitValues = static::split($value);
+        foreach ($row as $column => $field) {
+            $pieces = static::split($field);
 
-            foreach ($splitValues as $identifier) {
-                if ($this->validator->validate($identifier)) {
-                    array_push($columns, $column);
+            foreach ($pieces as $piece) {
+                if ($this->validator->validate($piece)) {
+                    array_push($indexes, $column);
                 }
             }
         }
 
-        return static::deduplicateArray($columns);
+        return static::deduplicateArray($indexes);
     }
 
     /**
@@ -56,19 +56,19 @@ abstract class Parser
      * @param  integer $iterations  The number of rows to iterate. Default: 10.
      * @return array                The columns where an identifier was found.
      */
-    public function findIdentifierColumns($iterations = 10)
+    public function findIndexes($iterations = 10)
     {
-        $allColumns = [];
+        $indexes = [];
 
         for ($pointer = 0; $pointer < $iterations; $pointer++) {
             $columns = $this->analyzeRow($pointer);
 
             foreach ($columns as $column) {
-                array_push($allColumns, $column);
+                array_push($indexes, $column);
             }
         }
 
-        return static::deduplicateArray($allColumns);
+        return static::deduplicateArray($indexes);
     }
 
     /**
