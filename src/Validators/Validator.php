@@ -1,15 +1,14 @@
 <?php namespace Dataloader\Validators;
 
 /**
- * Abstract validator class: $this->isValid() returns true if the identifier
+ * Abstract validator class. $this->validate() returns true if the identifier
  * passes validation, false if it doesn't.
  */
 abstract class Validator
 {
     /**
-     * Validator constructor.
+     * Validator static constructor.
      *
-     * @param  string $identifier
      * @return Validator
      */
     public static function make()
@@ -23,12 +22,10 @@ abstract class Validator
      * @param  string $identifier
      * @return boolean
      */
-    public function validate($identifier)
-    {
-    }
+    abstract public function validate($identifier);
 
     /**
-     * Stripes out dashes and whitespaces.
+     * Stripe out dashes and whitespaces.
      *
      * @param  string $identifier
      * @return string

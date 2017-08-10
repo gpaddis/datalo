@@ -14,7 +14,7 @@ class IsbnValidator extends Validator
     }
 
     /**
-     * Verify is the ISBN contains 10 or 13 characters, otherwise returns false.
+     * Verify is the ISBN 13 or 10 scheme is correct, otherwise return false.
      *
      * @param  string $isbn
      * @return mixed
@@ -35,16 +35,16 @@ class IsbnValidator extends Validator
     }
 
     /**
-     * Verify the checkDigit.
+     * Verify the check digit.
      *
-     * @param string $isbn
+     * @param  string   $isbn
      * @return boolean
      */
     public function checkDigit($isbn)
     {
         $isbn = $this->clean($isbn);
 
-        // Validate the ISBN-13 checkDigit.
+        // Validate the ISBN-13 check digit.
         if ($this->verifyScheme($isbn) == 13) {
             $check = 0;
 
@@ -59,7 +59,7 @@ class IsbnValidator extends Validator
             return $check % 10 === 0;
         }
 
-        // Validate the ISBN-10 checkDigit.
+        // Validate the ISBN-10 check digit.
         if ($this->verifyScheme($isbn) == 10) {
             $check = 0;
 

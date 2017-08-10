@@ -4,32 +4,47 @@ use League\Csv\Reader;
 
 abstract class Parser
 {
+    /**
+     * @var Reader $reader An instance of the CSV Reader class.
+     */
     protected $reader;
-    protected $validator;
 
+    /**
+     * Parser constructor.
+     *
+     * @param Reader $reader
+     */
     public function __construct(Reader $reader)
     {
         $this->reader = $reader;
-        $this->validator = null;
     }
 
+    /**
+     * Alternative static constructor.
+     *
+     * @param  Reader $reader
+     * @return Parser
+     */
     public static function make(Reader $reader)
     {
         return new static($reader);
     }
 
-    public static function split($identifiers)
-    {
-    }
+    /**
+     * Split a string field containing one or multiple identifiers.
+     *
+     * @param  string $field
+     * @return array
+     */
+    abstract public static function split(string $field);
 
     /**
      * Analyze a row and find the column index(es) containing identifiers.
      *
-     * @param  array     $row       A single row converted to array.
-     * @param  Validator $validator
-     * @return array                An array of the columns containing identifiers.
+     * @param  integer   $pointer   Pointer position in the file.
+     * @return array                An array of the matching column indexes.
      */
-    public function analyzeRow($pointer = 0)
+    public function analyzeRow(int $pointer = 0)
     {
         $indexes = [];
 
@@ -51,12 +66,12 @@ abstract class Parser
     }
 
     /**
-     * Iterate the reader X times and collect the column index(es) containing identifiers.
+     * Iterate the reader X times and collect all column index(es) containing identifiers.
      *
      * @param  integer $iterations  The number of rows to iterate. Default: 10.
-     * @return array                The columns where an identifier was found.
+     * @return array                The column indexes where an identifier was found.
      */
-    public function findIndexes($iterations = 10)
+    public function findIndexes(int $iterations = 10)
     {
         $indexes = [];
 
@@ -77,7 +92,7 @@ abstract class Parser
      * @param  array $array
      * @return array
      */
-    public static function deduplicateArray($array)
+    public static function deduplicateArray(array $array)
     {
         sort($array);
 

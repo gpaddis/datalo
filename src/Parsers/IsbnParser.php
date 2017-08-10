@@ -4,22 +4,26 @@ use Dataloader\Validators\IsbnValidator;
 
 class IsbnParser extends Parser
 {
-    protected $reader;
     protected $validator;
 
+    /**
+     * IsbnParser Constructor.
+     *
+     * @param Reader $reader
+     */
     public function __construct($reader)
     {
-        $this->reader = $reader;
+        parent::__construct($reader);
         $this->validator = IsbnValidator::make();
     }
 
     /**
-     * Split a string containing one or multiple ISBNs separated by non-numeric characters.
+     * Split a string containing one or multiple ISBNs separated by non-numeric & non-dash characters.
      *
      * @param  string $isbns
      * @return array
      */
-    public static function split($isbns = '')
+    public static function split(string $isbns = '')
     {
         $allIsbns = preg_split("/[^\d-x]/i", $isbns);
 
