@@ -86,29 +86,37 @@ abstract class Parser
         return static::deduplicateArray($columnIndexes);
     }
 
-    // TODO: change this to one row only. Better for keeping low memory usage.
-    public function getIdentifiers(array $columns, int $iterations)
+    /**
+     * Fetch all valid identifiers from a single row checking only in the columns specified.
+     * 
+     * @param  array  $columns The columns where there it should look for identifiers.
+     * @param  int    $pointer The row number to analyze.
+     * @return array           The valid identifiers found.
+     */
+    public function getIdentifiers(array $columns = [], int $pointer = 0)
     {
-        ! empty($pointer) ?: $pointer = 0;
-        ! empty($columns) ?: $columns = [];
+        // ! empty($pointer) ?: $pointer = 0;
 
-        $allIdentifiers = [];
+        $identifiersFound = [];
 
-        for ($pointer = 0; $pointer < $iterations ; $pointer++) {
-            $row = $this->reader->fetchOne($pointer);
+        $row = $this->reader->fetchOne($pointer);
 
-            foreach ($columns as $column) {
-                $identifiers = static::split($row[$column]);
+        foreach ($columns as $column) {
+            // Avoid an undefined offset error.
+            if ($column >= $this->countColumns()) {
+                continue;
+            }
 
-                foreach ($identifiers as $identifier) {
-                    if ($this->validator->validate($identifier)) {
-                        array_push($allIdentifiers, $this->validator->clean($identifier));
-                    }
+            $identifiers = static::split($row[$column]);
+
+            foreach ($identifiers as $identifier) {
+                if ($this->validator->validate($identifier)) {
+                    array_push($identifiersFound, $this->validator->clean($identifier));
                 }
             }
         }
 
-        return $allIdentifiers;
+        return $identifiersFound;
     }
 
     /**
@@ -122,5 +130,16 @@ abstract class Parser
         sort($array);
 
         return array_values(array_unique($array));
+    }
+
+    /**
+     * Count the columns in the csv file passed with the Reader instance.
+     * 
+     * @return integer Number of columns in the first row.
+     */
+    protected function countColumns()
+    {
+        $firstRow = $this->reader->fetchOne(0);
+        return count($firstRow);
     }
 }

@@ -17,28 +17,31 @@ class IsbnParserGetTest extends TestCase
     }
 
     /** @test */
-    public function it_extracts_an_array_of_isbns_within_the_columns_provided()
+    public function it_extracts_an_array_of_isbns_from_a_single_row_within_the_columns_provided()
     {
-        $rowsToCheck = 5;
         $isbnsToFind = [
-            '9781606929735',
-            '9780511303388',
-            '9781608762941',
-            '9781905050352',
-            '9781280480560',
-            '9781905050840',
-            '9789812381217',
-            '9781281929358',
-            '9789812776792',
-            '9780198774495',
-            '9780198774501',
-            '9780191525063',
-            '9780191596476',
-            '9781282052536'
+        '9781606929735',
+        '9780511303388',
+        '9781608762941'
         ];
 
-        $foundIsbns = $this->parser->getIdentifiers($this->columns, $rowsToCheck);
+        $row = 1;
+        $isbnsFound = $this->parser->getIdentifiers($this->columns, $row);
 
-        $this->assertEquals($isbnsToFind, $foundIsbns);
+        $this->assertEquals($isbnsToFind, $isbnsFound);
+    }
+
+    /** @test */
+    public function it_returns_an_empty_array_if_the_columns_passed_do_not_exist()
+    {
+        $wrongColumns = ['997', '998', '999'];
+
+        $this->assertEquals([], $this->parser->getIdentifiers($wrongColumns, 1));
+    }
+
+    /** @test */
+    public function it_returns_an_empty_array_if_no_arguments_are_passed()
+    {
+        $this->assertEquals([], $this->parser->getIdentifiers());
     }
 }
