@@ -73,17 +73,42 @@ abstract class Parser
      */
     public function findIndexes(int $iterations = 10)
     {
-        $indexes = [];
+        $columnIndexes = [];
 
         for ($pointer = 0; $pointer < $iterations; $pointer++) {
             $columns = $this->analyzeRow($pointer);
 
             foreach ($columns as $column) {
-                array_push($indexes, $column);
+                array_push($columnIndexes, $column);
             }
         }
 
-        return static::deduplicateArray($indexes);
+        return static::deduplicateArray($columnIndexes);
+    }
+
+    // TODO: change this to one row only. Better for keeping low memory usage.
+    public function getIdentifiers(array $columns, int $iterations)
+    {
+        ! empty($pointer) ?: $pointer = 0;
+        ! empty($columns) ?: $columns = [];
+
+        $allIdentifiers = [];
+
+        for ($pointer = 0; $pointer < $iterations ; $pointer++) {
+            $row = $this->reader->fetchOne($pointer);
+
+            foreach ($columns as $column) {
+                $identifiers = static::split($row[$column]);
+
+                foreach ($identifiers as $identifier) {
+                    if ($this->validator->validate($identifier)) {
+                        array_push($allIdentifiers, $this->validator->clean($identifier));
+                    }
+                }
+            }
+        }
+
+        return $allIdentifiers;
     }
 
     /**
