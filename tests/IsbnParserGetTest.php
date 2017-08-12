@@ -20,13 +20,13 @@ class IsbnParserGetTest extends TestCase
     public function it_extracts_an_array_of_isbns_from_a_single_row_within_the_columns_provided()
     {
         $isbnsToFind = [
-        '9781606929735',
-        '9780511303388',
-        '9781608762941'
+            '9781606929735',
+            '9780511303388',
+            '9781608762941'
         ];
 
         $row = 1;
-        $isbnsFound = $this->parser->getIdentifiers($this->columns, $row);
+        $isbnsFound = $this->parser->fetchIdentifiers($this->columns, $row);
 
         $this->assertEquals($isbnsToFind, $isbnsFound);
     }
@@ -36,12 +36,12 @@ class IsbnParserGetTest extends TestCase
     {
         $wrongColumns = ['997', '998', '999'];
 
-        $this->assertEquals([], $this->parser->getIdentifiers($wrongColumns, 1));
+        $this->assertEquals([], $this->parser->fetchIdentifiers($wrongColumns, 1));
     }
 
     /** @test */
     public function it_returns_an_empty_array_if_no_arguments_are_passed()
     {
-        $this->assertEquals([], $this->parser->getIdentifiers());
+        $this->assertEquals([], $this->parser->fetchIdentifiers());
     }
 }

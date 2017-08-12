@@ -31,14 +31,6 @@ abstract class Parser
     }
 
     /**
-     * Split a string field containing one or multiple identifiers.
-     *
-     * @param  string $field
-     * @return array
-     */
-    abstract public static function split(string $field);
-
-    /**
      * Analyze a row and find the column index(es) containing identifiers.
      *
      * @param  integer   $pointer   Pointer position in the file.
@@ -78,9 +70,7 @@ abstract class Parser
         for ($pointer = 0; $pointer < $iterations; $pointer++) {
             $columns = $this->analyzeRow($pointer);
 
-            foreach ($columns as $column) {
-                array_push($columnIndexes, $column);
-            }
+            $columnIndexes = array_merge($columns, $columnIndexes);
         }
 
         return static::deduplicateArray($columnIndexes);
@@ -89,33 +79,27 @@ abstract class Parser
     /**
      * Fetch all valid identifiers from a single row checking only in the columns specified.
      * 
-     * @param  array  $columns The columns where there it should look for identifiers.
-     * @param  int    $pointer The row number to analyze.
-     * @return array           The valid identifiers found.
+     * @param  array  $columns  The columns where there it should look for identifiers.
+     * @param  int    $pointer  The row number to analyze.
+     * @return array            The valid identifiers found.
      */
-    public function getIdentifiers(array $columns = [], int $pointer = 0)
+    public function fetchIdentifiers(array $columns = [], int $pointer = 0)
     {
-        // ! empty($pointer) ?: $pointer = 0;
-
         $identifiersFound = [];
 
         $row = $this->reader->fetchOne($pointer);
 
-        foreach ($columns as $column) {
-            // Avoid an undefined offset error.
-            if ($column >= $this->countColumns()) {
-                continue;
-            }
+        foreach ($columns as $column) { 
+            if ($this->exists($column)){
+                $identifiers = static::split($row[$column]);
 
-            $identifiers = static::split($row[$column]);
-
-            foreach ($identifiers as $identifier) {
-                if ($this->validator->validate($identifier)) {
-                    array_push($identifiersFound, $this->validator->clean($identifier));
+                foreach ($identifiers as $identifier) {
+                    if ($this->validator->validate($identifier)) {
+                        array_push($identifiersFound, $this->validator->clean($identifier));
+                    }
                 }
             }
         }
-
         return $identifiersFound;
     }
 
@@ -137,9 +121,28 @@ abstract class Parser
      * 
      * @return integer Number of columns in the first row.
      */
-    protected function countColumns()
+    protected function countFileColumns()
     {
         $firstRow = $this->reader->fetchOne(0);
         return count($firstRow);
     }
+
+    /**
+     * Check whether a column exists in the current Reader instance.
+     * 
+     * @param  int  $column
+     * @return boolean
+     */
+    protected function exists($column)
+    {
+        return $column <= $this->countFileColumns();
+    }
+
+    /**
+     * Split a string field containing one or multiple identifiers.
+     *
+     * @param  string $field
+     * @return array
+     */
+    abstract public static function split(string $field);
 }
