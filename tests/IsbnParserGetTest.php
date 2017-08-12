@@ -12,23 +12,31 @@ class IsbnParserGetTest extends TestCase
         $this->csv->setDelimiter("\t");
 
         $this->parser = IsbnParser::make($this->csv);
-
         $this->columns = $this->parser->findIndexes();
     }
 
     /** @test */
-    public function it_extracts_an_array_of_isbns_from_a_single_row_within_the_columns_provided()
+    public function it_collects_all_isbns_from_a_single_row_within_the_columns_provided()
     {
-        $isbnsToFind = [
-            '9781606929735',
-            '9780511303388',
-            '9781608762941'
+        $isbnsInRowTwo = [
+            '9781905050352',
+            '9781280480560',
+            '9781905050840'
         ];
 
-        $row = 1;
-        $isbnsFound = $this->parser->fetchIdentifiers($this->columns, $row);
+        $isbnsInRowFour = [
+            '9780198774495',
+            '9780198774501',
+            '9780191525063',
+            '9780191596476',
+            '9781282052536'
+        ];
 
-        $this->assertEquals($isbnsToFind, $isbnsFound);
+        $isbnsFoundInRowTwo = $this->parser->collectIdentifiers(2, $this->columns);
+        $this->assertCount(3, array_intersect($isbnsInRowTwo, $isbnsFoundInRowTwo));
+
+        $isbnsFoundInRowFour = $this->parser->collectIdentifiers(4, $this->columns);
+        $this->assertCount(5, array_intersect($isbnsInRowFour, $isbnsFoundInRowFour));
     }
 
     /** @test */
@@ -36,12 +44,12 @@ class IsbnParserGetTest extends TestCase
     {
         $wrongColumns = ['997', '998', '999'];
 
-        $this->assertEquals([], $this->parser->fetchIdentifiers($wrongColumns, 1));
+        $this->assertEquals([], $this->parser->collectIdentifiers(1, $wrongColumns));
     }
 
     /** @test */
     public function it_returns_an_empty_array_if_no_arguments_are_passed()
     {
-        $this->assertEquals([], $this->parser->fetchIdentifiers());
+        $this->assertEquals([], $this->parser->collectIdentifiers());
     }
 }

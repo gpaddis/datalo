@@ -40,21 +40,32 @@ abstract class Parser
     {
         $indexes = [];
 
-        ! empty($pointer) ?: $pointer = 0;
-
         $row = $this->reader->fetchOne($pointer);
 
         foreach ($row as $column => $field) {
-            $pieces = static::split($field);
-
-            foreach ($pieces as $piece) {
-                if ($this->validator->validate($piece)) {
-                    array_push($indexes, $column);
-                }
+            if ($this->containsIdentifiers($field)) {
+                array_push($indexes, $column);
             }
         }
 
-        return static::deduplicateArray($indexes);
+        return $indexes;
+    }
+
+    /**
+     * Check if a field contains identifiers.
+     * 
+     * @param  string  $field
+     * @return boolean
+     */
+    protected function containsIdentifiers($field)
+    {
+        $candidates = static::split($field);
+
+        foreach ($candidates as $candidate) {
+            if ($this->validator->validate($candidate)) return true;
+        }
+
+        return false;
     }
 
     /**
@@ -65,42 +76,60 @@ abstract class Parser
      */
     public function findIndexes(int $iterations = 10)
     {
-        $columnIndexes = [];
+        $result = [];
 
         for ($pointer = 0; $pointer < $iterations; $pointer++) {
             $columns = $this->analyzeRow($pointer);
 
-            $columnIndexes = array_merge($columns, $columnIndexes);
+            $result = array_merge($columns, $result);
         }
 
-        return static::deduplicateArray($columnIndexes);
+        return static::deduplicateArray($result);
     }
 
     /**
-     * Fetch all valid identifiers from a single row checking only in the columns specified.
+     * Extract all valid identifiers contained in a single field.
      * 
-     * @param  array  $columns  The columns where there it should look for identifiers.
-     * @param  int    $pointer  The row number to analyze.
-     * @return array            The valid identifiers found.
+     * @param  array    $row
+     * @param  integer  $column
+     * @return array
      */
-    public function fetchIdentifiers(array $columns = [], int $pointer = 0)
+    public function extractIdentifiersFromField(array $row, int $column)
     {
-        $identifiersFound = [];
+        $result = [];
+
+        $candidates = static::split($row[$column]);
+        
+        foreach ($candidates as $candidate) {
+            if ($this->validator->validate($candidate)) {
+                array_push($result, $this->validator->clean($candidate));
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Collect all identifiers from a single row checking only in the columns specified.
+     * 
+     * @param  integer  $pointer  The row number to analyze.
+     * @param  array    $columns  The columns where there it should look for identifiers.
+     * @return array              The valid identifiers found.
+     */
+    public function collectIdentifiers(int $pointer = 0, array $columns = [])
+    {
+        $result = [];
 
         $row = $this->reader->fetchOne($pointer);
 
         foreach ($columns as $column) { 
             if ($this->exists($column)){
-                $identifiers = static::split($row[$column]);
+                $identifiers = $this->extractIdentifiersFromField($row, $column);
 
-                foreach ($identifiers as $identifier) {
-                    if ($this->validator->validate($identifier)) {
-                        array_push($identifiersFound, $this->validator->clean($identifier));
-                    }
-                }
+                $result = array_merge($identifiers, $result);
             }
         }
-        return $identifiersFound;
+        return $result;
     }
 
     /**
@@ -117,25 +146,16 @@ abstract class Parser
     }
 
     /**
-     * Count the columns in the csv file passed with the Reader instance.
-     * 
-     * @return integer Number of columns in the first row.
-     */
-    protected function countFileColumns()
-    {
-        $firstRow = $this->reader->fetchOne(0);
-        return count($firstRow);
-    }
-
-    /**
      * Check whether a column exists in the current Reader instance.
      * 
      * @param  int  $column
      * @return boolean
      */
-    protected function exists($column)
+    protected function exists(int $column)
     {
-        return $column <= $this->countFileColumns();
+        $firstRow = $this->reader->fetchOne(0);
+        
+        return array_key_exists($column, $firstRow);
     }
 
     /**

@@ -13,8 +13,9 @@ class IsbnParser extends Parser
      */
     public function __construct($reader)
     {
-        parent::__construct($reader);
         $this->validator = IsbnValidator::make();
+     
+        parent::__construct($reader);
     }
 
     /**
