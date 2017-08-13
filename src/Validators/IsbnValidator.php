@@ -8,7 +8,7 @@ class IsbnValidator extends Validator
      * @param  string $isbn
      * @return boolean
      */
-    public function validate($isbn)
+    public function validate(string $isbn)
     {
         return $this->checkDigit($isbn);
     }

@@ -1,8 +1,9 @@
 <?php namespace Dataloader\Parsers;
 
 use League\Csv\Reader;
+use Dataloader\Interfaces\ParserInterface;
 
-abstract class Parser
+abstract class Parser implements ParserInterface
 {
     /**
      * @var Reader $reader An instance of the CSV Reader class.
