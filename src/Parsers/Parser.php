@@ -1,9 +1,8 @@
 <?php namespace Dataloader\Parsers;
 
 use League\Csv\Reader;
-use Dataloader\Interfaces\ParserInterface;
 
-abstract class Parser implements ParserInterface
+abstract class Parser
 {
     /**
      * @var Reader $reader An instance of the CSV Reader class.
@@ -114,7 +113,7 @@ abstract class Parser implements ParserInterface
      * Collect all identifiers from a single row checking only in the columns specified.
      * 
      * @param  integer  $pointer  The row number to analyze.
-     * @param  array    $columns  The columns where there it should look for identifiers.
+     * @param  array    $columns  The columns where it should look for identifiers.
      * @return array              The valid identifiers found.
      */
     public function collectIdentifiers(int $pointer = 0, array $columns = [])

@@ -1,12 +1,10 @@
 <?php namespace Dataloader\Validators;
 
-use Dataloader\Interfaces\ValidatorInterface;
-
 /**
  * Abstract validator class. $this->validate() returns true if the identifier
  * passes validation, false if it doesn't.
  */
-abstract class Validator implements ValidatorInterface
+abstract class Validator
 {
     /**
      * Validator static constructor.
