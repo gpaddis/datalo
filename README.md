@@ -1,7 +1,9 @@
-Dataloader Tools
+Dataloader List Converter
 =====
+**Warning: this software is in development and is not fully functional yet.** Watch the repository to be informed when the first version will be released.
 
-When we need a list of ISBNs or ISSNs to update target portfolios on SFX via the *dataloader*, we usually have to fetch the identifiers manually from non standardized lists in delimiter-separated formats (CSV, TSV) or Excel worksheets. The identifiers we need are usually merged in single fields, connected with different separators each time. This is an extract of such a list:
+When we perform operations on SFX target portfolios via the *dataloader*, we need a clean list of ISBNs or ISSNs in a tab separated file. 
+usually have to fetch the identifiers manually from non standardized lists in delimiter-separated formats (CSV, TSV) or Excel worksheets. The identifiers we need are sometimes merged in single fields, connected with different separators each time. This is an extract of such a list:
 
 ```
 "Author"	"Editor"	"Illustrator"	"PrintISSN"	"OnlineISSN"	"PrintISBN"	"OnlineISBN"
@@ -20,7 +22,4 @@ The end result we aim for should look like this:
 | 9781280480560 | ACTIVE |
 | 9781905050840 | ACTIVE |
 
-The **dataloader tools** parse all identifiers in the first list and generate the second **automatically**.
-
-# Usage
-**The library is currently in development.**
+The **dataloader list converter** parses the first list in search of identifiers and generates the second **automatically**.
