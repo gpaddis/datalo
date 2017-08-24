@@ -3,7 +3,8 @@
     "description": "Conversion tools to generate ISBN and ISSN lists for the SFX dataloader.",
     "type": "project",
     "require": {
-        "league/csv": "^8.2"
+        "league/csv": "^8.2",
+        "symfony/console": "^3.3"
     },
     "license": "MIT",
     "authors": [
