@@ -1,5 +1,6 @@
 <?php namespace Dataloader\Parsers;
 
+use Dataloader\Splitters\IsbnSplitter;
 use Dataloader\Validators\IsbnValidator;
 
 class IsbnParser extends Parser
@@ -8,26 +9,10 @@ class IsbnParser extends Parser
 
     /**
      * IsbnParser Constructor.
-     *
-     * @param Reader $reader
      */
-    public function __construct($reader)
+    public function __construct()
     {
-        $this->validator = IsbnValidator::make();
-     
-        parent::__construct($reader);
-    }
-
-    /**
-     * Split a string containing one or multiple ISBNs separated by non-numeric & non-dash characters.
-     *
-     * @param  string $isbns
-     * @return array
-     */
-    public static function split(string $isbns = '')
-    {
-        $allIsbns = preg_split("/[^\d-x]/i", $isbns);
-
-        return array_values(array_filter($allIsbns));
+        $this->validator = new IsbnValidator;
+        $this->splitter = new IsbnSplitter;
     }
 }

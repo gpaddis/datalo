@@ -6,6 +6,8 @@
  */
 abstract class Validator
 {
+    abstract public function validate(string $identifier) : bool;
+
     /**
      * Validator static constructor.
      *
@@ -15,14 +17,6 @@ abstract class Validator
     {
         return new static;
     }
-
-    /**
-     * Check if an identifier is valid.
-     *
-     * @param  string $identifier
-     * @return boolean
-     */
-    abstract public function validate(string $identifier);
 
     /**
      * Stripe out dashes and whitespaces.

@@ -11,8 +11,9 @@ class IsbnParserGetTest extends TestCase
         $this->csv = Reader::createFromPath('tests/data/ebscotabdelimited.tsv');
         $this->csv->setDelimiter("\t");
 
-        $this->parser = IsbnParser::make($this->csv);
-        $this->columns = $this->parser->findIndexes();
+        $this->parser = IsbnParser::make();
+        $rows = $this->csv->setOffset(1)->setLimit(10)->fetchAll();;
+        $this->columns = $this->parser->findAllIndexes($rows);
     }
 
     /** @test */
@@ -32,10 +33,10 @@ class IsbnParserGetTest extends TestCase
             '9781282052536'
         ];
 
-        $isbnsFoundInRowTwo = $this->parser->collectIdentifiers(2, $this->columns);
+        $isbnsFoundInRowTwo = $this->parser->collectIdentifiers($this->csv->fetchOne(2), $this->columns);
         $this->assertCount(3, array_intersect($isbnsInRowTwo, $isbnsFoundInRowTwo));
 
-        $isbnsFoundInRowFour = $this->parser->collectIdentifiers(4, $this->columns);
+        $isbnsFoundInRowFour = $this->parser->collectIdentifiers($this->csv->fetchOne(4), $this->columns);
         $this->assertCount(5, array_intersect($isbnsInRowFour, $isbnsFoundInRowFour));
     }
 
@@ -44,7 +45,7 @@ class IsbnParserGetTest extends TestCase
     {
         $wrongColumns = ['997', '998', '999'];
 
-        $this->assertEquals([], $this->parser->collectIdentifiers(1, $wrongColumns));
+        $this->assertEquals([], $this->parser->collectIdentifiers($this->csv->fetchOne(1), $wrongColumns));
     }
 
     /** @test */
@@ -52,4 +53,6 @@ class IsbnParserGetTest extends TestCase
     {
         $this->assertEquals([], $this->parser->collectIdentifiers());
     }
+
+
 }

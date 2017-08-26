@@ -8,13 +8,13 @@ class IsbnValidator extends Validator
      * @param  string $isbn
      * @return boolean
      */
-    public function validate(string $isbn)
+    public function validate(string $isbn) : bool
     {
         return $this->checkDigit($isbn);
     }
 
     /**
-     * Verify is the ISBN 13 or 10 scheme is correct, otherwise return false.
+     * Check if the ISBN 13 or 10 scheme is correct, otherwise return false.
      *
      * @param  string $isbn
      * @return mixed
@@ -40,7 +40,7 @@ class IsbnValidator extends Validator
      * @param  string   $isbn
      * @return boolean
      */
-    public function checkDigit($isbn)
+    public function checkDigit($isbn) : bool
     {
         $isbn = $this->clean($isbn);
 

@@ -1,6 +1,6 @@
 {
-    "name": "gianpiero.addis/dataloader-tools",
-    "description": "Conversion tools to generate ISBN and ISSN lists for the SFX dataloader.",
+    "name": "gpaddis/datalo",
+    "description": "ISBN & ISSN list generator for the SFX Dataloader.",
     "type": "project",
     "require": {
         "league/csv": "^8.2",
