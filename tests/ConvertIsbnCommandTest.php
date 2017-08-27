@@ -30,7 +30,8 @@ class ConvertIsbnCommandTest extends TestCase
 
         // the output of the command in the console
 		$output = $this->commandTester->getDisplay();
-		$this->assertContains('Correctly processed 241 identifiers.', $output);
+		$this->assertContains('processed succesfully', $output);
+		$this->assertContains('241', $output);
 	}
 
 	/** @test */

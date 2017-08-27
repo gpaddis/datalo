@@ -2,7 +2,6 @@
 
 use RuntimeException;
 use League\Csv\Reader;
-use League\Csv\Writer;
 use Dataloader\Parsers\IsbnParser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -36,7 +35,7 @@ class ConvertIsbnCommand extends Command
 		->addArgument('source', InputArgument::REQUIRED, 'The source file that you want to process.')
 		->addArgument('destination', InputArgument::REQUIRED, 'The name of the tab separated file for the SFX Dataloader.')
 		->addOption('delimiter', null, InputOption::VALUE_REQUIRED, 'Set the delimiter for the source file (comma/tab/semicolon).', 'comma')
-		->addOption('status', null, InputOption::VALUE_REQUIRED, 'Set the desired status for the portfolios (e.g. ACTIVE, INACTIVE).');
+		->addOption('status', null, InputOption::VALUE_REQUIRED, 'Set the desired status for the portfolios (e.g. ACTIVE, INACTIVE).', 'ACTIVE');
 	}
 
 	/**
@@ -64,41 +63,38 @@ class ConvertIsbnCommand extends Command
 		if (! $indexes = $parser->findAllIndexes($first25Rows)) throw new RuntimeException("No ISBNs found. Try to use a different delimiter or load another file.");
 
 		$output->writeln(sprintf('<info>Found %s column(s) containing ISBNs.</info>', count($indexes)));
-		$output->writeln(sprintf('<info>Processing file...</info>', count($indexes)));
+		$output->writeln(sprintf('Processing file...', count($indexes)));
 
 		// Extract all identifiers and save them in the destination file.
 		$destination = $input->getArgument('destination');
+		$status = $input->getOption('status');
 		$handle = fopen($destination, 'a');
 
 		// Create a new progress bar.
 		$progress = new ProgressBar($output);
-		$progress->setRedrawFrequency(150);
-
-		// start and displays the progress bar
+		$progress->setRedrawFrequency(100);
 		$progress->start();
 
 		$i = 0;
-		$processedIdentifiers = 0;
-
+		$count = 0;
 		while ($row = $csv->fetchOne($i)) {
 			$identifiers = $parser->collectIdentifiers($row, $indexes);
 			foreach ($identifiers as $identifier) {
-				$line = [$identifier, 'ACTIVE'];
+				$line = [$identifier, $status];
 				fputcsv($handle, $line, '	');
-				$processedIdentifiers++;
 				$progress->advance();
+				$count++;
 			}
 			$i++;
 		}
-
 		fclose($handle);
-		$progress->finish();
-
-		$output->writeln("");
-		$output->writeln("<info>Correctly processed $processedIdentifiers identifiers.</info>");
-		$output->writeln("<info>The file for the dataloader is: $destination.</info>");
 
 		// Confirm the result of the operation.
+		$progress->finish();
+		$output->writeln("");
+		$output->writeln("{$count} identifiers processed succesfully.");
+		$output->writeln("The file for the dataloader was saved here: <info>{$destination}.</info>");
+
 	}
 
 	/**
