@@ -1,5 +1,6 @@
-gpaddis/datalo : SFX Dataloader List Converter
-=====
+# gpaddis/datalo : SFX Dataloader List Converter
+[![Build Status](https://travis-ci.org/gpaddis/datalo.svg?branch=master)](https://travis-ci.org/gpaddis/datalo)
+
 **Warning: this software is in development and is not fully functional yet.** Watch the repository to be informed when the first version will be released.
 
 When we perform operations on SFX target portfolios via the *dataloader*, we need a clean list of ISBNs or ISSNs in a tab separated file. 
