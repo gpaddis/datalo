@@ -5,8 +5,6 @@ use Dataloader\Validators\IsbnValidator;
 
 class IsbnParser extends Parser
 {
-    protected $validator;
-
     /**
      * IsbnParser Constructor.
      */

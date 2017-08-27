@@ -46,10 +46,10 @@ abstract class Parser
      */
     protected function containsIdentifiers(string $field) : bool
     {
-        $candidates = $this->splitter->split($field);
+        $candidates = $this->split($field);
 
         foreach ($candidates as $candidate) {
-            if ($this->validator->validate($candidate)) return true;
+            if ($this->validate($candidate)) return true;
         }
 
         return false;
@@ -85,10 +85,10 @@ abstract class Parser
     {
         $result = [];
 
-        $candidates = $this->splitter->split($row[$column]);
+        $candidates = $this->split($row[$column]);
 
         foreach ($candidates as $candidate) {
-            if ($this->validator->validate($candidate)) {
+            if ($this->validate($candidate)) {
                 array_push($result, $this->validator->clean($candidate));
             }
         }
@@ -128,6 +128,28 @@ abstract class Parser
     protected function exists(int $column, array $row) : bool
     {
         return array_key_exists($column, $row);
+    }
+
+    /**
+     * Use the split() function of the splitter passed in the constructor.
+     * 
+     * @param  string $field
+     * @return array
+     */
+    protected function split(string $field) : array
+    {
+        return $this->splitter->split($field);
+    }
+
+    /**
+     * Use the validate() function of the validator passed in the constructor.
+     * 
+     * @param  string $identifier
+     * @return boolean
+     */
+    protected function validate(string $identifier) : bool
+    {
+        return $this->validator->validate($identifier);
     }
 
     /**

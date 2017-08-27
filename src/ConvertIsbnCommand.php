@@ -126,12 +126,12 @@ class ConvertIsbnCommand extends Command
 	}
 
 	/**
-	 * Returns true if the file is empty.
+	 * Return true if the file is empty.
 	 * 
-	 * @param  [type]  $file [description]
+	 * @param  string  $file
 	 * @return boolean
 	 */
-	protected function isEmpty($file)
+	protected function isEmpty($file) : bool
 	{
 		return filesize($file) == 0;
 	}
