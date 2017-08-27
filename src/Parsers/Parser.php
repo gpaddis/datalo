@@ -14,18 +14,18 @@ abstract class Parser
      *
      * @return Parser
      */
-    public static function make()
+    public static function make() : Parser
     {
         return new static;
     }
 
     /**
-     * Analyze a row and find the column index(es) containing identifiers.
+     * Analyze a row and return the column index(es) containing identifiers.
      *
-     * @param  integer   $pointer   Pointer position in the file.
-     * @return array                An array of the matching column indexes.
+     * @param  array $row
+     * @return array
      */
-    public function analyzeRow(array $row = [])
+    public function analyzeRow(array $row = []) : array
     {
         $indexes = [];
 
@@ -44,7 +44,7 @@ abstract class Parser
      * @param  string  $field
      * @return boolean
      */
-    protected function containsIdentifiers($field)
+    protected function containsIdentifiers(string $field) : bool
     {
         $candidates = $this->splitter->split($field);
 
@@ -61,7 +61,7 @@ abstract class Parser
      * @param  array $rows
      * @return array
      */
-    public function findAllIndexes(array $rows = [])
+    public function findAllIndexes(array $rows = []) : array
     {
         $result = [];
 
@@ -77,11 +77,11 @@ abstract class Parser
     /**
      * Extract all valid identifiers contained in a single field.
      *
-     * @param  array    $row
-     * @param  integer  $column
+     * @param  array   $row
+     * @param  integer $column
      * @return array
      */
-    public function extractIdentifiersFromField(array $row, int $column)
+    public function extractIdentifiersFromField(array $row, int $column) : array
     {
         $result = [];
 
@@ -97,13 +97,14 @@ abstract class Parser
     }
 
     /**
-     * Collect all identifiers from a single row checking only in the columns specified.
+     * Collect all identifiers from a single row checking only in the columns specified
+     * and return them in a sorted array.
      *
-     * @param  array    $row      The row to analyze.
-     * @param  array    $columns  The columns where it should look for identifiers.
-     * @return array              The valid identifiers found.
+     * @param  array $row      The row to analyze.
+     * @param  array $columns  The columns where it should look for identifiers.
+     * @return array
      */
-    public function collectIdentifiers(array $row = [], array $columns = [])
+    public function collectIdentifiers(array $row = [], array $columns = []) : array
     {
         $result = [];
 
@@ -124,7 +125,7 @@ abstract class Parser
      * @param  array $row
      * @return boolean
      */
-    protected function exists(int $column, array $row)
+    protected function exists(int $column, array $row) : bool
     {
         return array_key_exists($column, $row);
     }
@@ -135,7 +136,7 @@ abstract class Parser
      * @param  array $array
      * @return array
      */
-    public static function deduplicateArray(array $array)
+    public static function deduplicateArray(array $array) : array
     {
         sort($array);
 

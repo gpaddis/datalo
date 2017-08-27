@@ -24,7 +24,7 @@ class ConvertIsbnCommandTest extends TestCase
 
             // pass arguments to the helper
 			'source' => 'tests/data/ebscotabdelimited.tsv',
-			'destination' => 'something.txt',
+			'destination' => 'tests/data/something.txt',
 			'--delimiter' => 'tab',
 			));
 

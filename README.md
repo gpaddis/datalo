@@ -1,4 +1,4 @@
-Dataloader List Converter
+gpaddis/datalo : SFX Dataloader List Converter
 =====
 **Warning: this software is in development and is not fully functional yet.** Watch the repository to be informed when the first version will be released.
 
@@ -22,4 +22,4 @@ The end result we aim for should look like this:
 | 9781280480560 | ACTIVE |
 | 9781905050840 | ACTIVE |
 
-The **dataloader list converter** parses the first list in search of identifiers and generates the second **automatically**.
+**Datalo** parses the first list in search of valid identifiers and generates the second **automatically**.

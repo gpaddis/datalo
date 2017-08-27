@@ -13,7 +13,7 @@ abstract class Validator
      *
      * @return Validator
      */
-    public static function make()
+    public static function make() : Validator
     {
         return new static;
     }
@@ -24,7 +24,7 @@ abstract class Validator
      * @param  string $identifier
      * @return string
      */
-    public function clean($identifier)
+    public function clean($identifier) : string
     {
         return str_replace(['-', ' '], '', $identifier);
     }
