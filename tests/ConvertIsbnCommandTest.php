@@ -50,7 +50,22 @@ class ConvertIsbnCommandTest extends TestCase
 	}
 
 		/** @test */
-	public function it_throws_a_runtime_exception_if_the_delimiter_is_not_allowed()
+	public function it_throws_an_invalid_argument_exception_if_the_delimiter_is_not_allowed()
+	{
+		$this->expectException('InvalidArgumentException');
+
+		$this->commandTester->execute(array(
+			'command'  => $this->command->getName(),
+
+            // pass arguments to the helper
+			'source' => 'tests/data/ebscotabdelimited.tsv',
+			'destination' => 'tests/data/output.txt',
+			'--delimiter' => 'colon',
+			));
+	}
+
+	/** @test */
+	public function it_throws_an_exception_if_the_source_file_is_empty()
 	{
 		$this->expectException('RuntimeException');
 
@@ -58,7 +73,22 @@ class ConvertIsbnCommandTest extends TestCase
 			'command'  => $this->command->getName(),
 
             // pass arguments to the helper
-			'source' => 'tests/data/nonexistingfile.tsv',
+			'source' => 'tests/data/empty.tsv',
+			'destination' => 'tests/data/output.txt',
+			'--delimiter' => 'colon',
+			));
+	}
+
+	/** @test */
+	public function it_throws_an_exception_if_the_source_file_does_not_exists()
+	{
+		$this->expectException('RuntimeException');
+
+		$this->commandTester->execute(array(
+			'command'  => $this->command->getName(),
+
+            // pass arguments to the helper
+			'source' => 'tests/data/nonexisting.tsv',
 			'destination' => 'tests/data/output.txt',
 			'--delimiter' => 'colon',
 			));

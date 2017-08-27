@@ -47,8 +47,12 @@ class ConvertIsbnCommand extends Command
 	 */
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
-		// Load the file and instantiate CSV Reader and IsbnParser.
 		$filename = $input->getArgument('source');
+
+		// Check if the file exists.
+		if (!file_exists($filename) || $this->isEmpty($filename)) throw new RuntimeException("You are trying to open an invalid file. Try with another one.");
+		
+		// Load the file and instantiate CSV Reader and IsbnParser.
 		$csv = Reader::createFromPath($filename);
 
 		// Set a delimiter for the CSV and check if it is the right one for the file.
@@ -106,7 +110,8 @@ class ConvertIsbnCommand extends Command
 	protected function validateDelimiter($delimiter)
 	{
 		if (! array_key_exists($delimiter, $this->delimiters)) {
-			throw new RuntimeException('You entered an invalid delimiter. Try with "' . implode('", "', array_keys($this->delimiters)) . '".');
+			$delimiters = implode('", "', array_keys($this->delimiters));
+			throw new \InvalidArgumentException("You entered an invalid delimiter. Try with \"{$delimiters}\".");
 		}
 	}
 
@@ -118,5 +123,16 @@ class ConvertIsbnCommand extends Command
 	protected function checkForBadDelimiter($csv)
 	{
 		if (count($csv->fetchOne(1)) <= 1) throw new RuntimeException("You didn't choose the appropriate delimiter. Try with another one.");
+	}
+
+	/**
+	 * Returns true if the file is empty.
+	 * 
+	 * @param  [type]  $file [description]
+	 * @return boolean
+	 */
+	protected function isEmpty($file)
+	{
+		return filesize($file) == 0;
 	}
 }
