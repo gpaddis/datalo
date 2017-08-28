@@ -30,7 +30,7 @@ class ConvertIsbnCommandTest extends TestCase
         // the output of the command in the console
 		$output = $this->commandTester->getDisplay();
 		$this->assertContains('processed succesfully', $output);
-		$this->assertContains('239', $output);
+		$this->assertContains('240', $output);
 	}
 
 	/** @test */
