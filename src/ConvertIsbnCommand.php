@@ -71,6 +71,8 @@ class ConvertIsbnCommand extends Command
 
 		// Extract all identifiers and save them in the destination file.
 		$destination = $input->getArgument('destination');
+		if (file_exists($destination)) throw new \RuntimeException('Destination file already exists. Please choose another file name.');
+
 		$status = $input->getOption('status');
 
 		// Create a new progress bar.
@@ -86,6 +88,7 @@ class ConvertIsbnCommand extends Command
 			foreach ($identifiers as $identifier) {
 				$line = [$identifier, $status];
 				fputcsv($handle, $line, '	');
+
 				$progress->advance();
 				$identifiersCount++;
 			}
