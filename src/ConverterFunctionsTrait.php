@@ -18,7 +18,7 @@ trait ConverterFunctionsTrait
 
 	/**
 	 * If there's only one column, this means the delimiter is not correct.
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function checkForBadDelimiter($csv)
@@ -28,7 +28,7 @@ trait ConverterFunctionsTrait
 
 	/**
 	 * Return true if the file is empty.
-	 * 
+	 *
 	 * @param  string  $file
 	 * @return boolean
 	 */
@@ -36,4 +36,9 @@ trait ConverterFunctionsTrait
 	{
 		return filesize($file) == 0;
 	}
+
+    protected function verifyDestinationDoesntExist($destination)
+    {
+        if (file_exists($destination)) throw new \RuntimeException('Destination file already exists. Please choose another file name.');
+    }
 }

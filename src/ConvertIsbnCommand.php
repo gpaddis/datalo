@@ -31,11 +31,12 @@ class ConvertIsbnCommand extends Command
 	public function configure()
 	{
 		$this->setName('convert:isbn')
-		->setDescription('Generate a list of ISBNs.')
-		->addArgument('source', InputArgument::REQUIRED, 'The delimiter-separated source file you want to process.')
-		->addArgument('destination', InputArgument::REQUIRED, 'The name of the tab separated file for the SFX Dataloader.')
-		->addOption('delimiter', null, InputOption::VALUE_REQUIRED, 'Set the delimiter for the source file (comma/tab/semicolon).', 'comma')
-		->addOption('status', null, InputOption::VALUE_REQUIRED, 'Set the desired status for the portfolios (e.g. ACTIVE, INACTIVE).', 'ACTIVE');
+		->setDescription('Generate a list of ISBNs')
+		->addArgument('source', InputArgument::REQUIRED, 'The delimiter-separated source file you want to process')
+		->addArgument('destination', InputArgument::REQUIRED, 'The name of the tab separated file for the SFX Dataloader')
+		->addOption('delimiter', null, InputOption::VALUE_REQUIRED, 'Set the delimiter for the source file (comma/tab/semicolon)', 'comma')
+		->addOption('status', null, InputOption::VALUE_REQUIRED, 'Set the desired status for the portfolios (e.g. ACTIVE, INACTIVE)', 'ACTIVE')
+		->addOption('force', null, InputOption::VALUE_NONE, 'Overwrite the destination file if it already exists');
 	}
 
 	/**
@@ -47,13 +48,19 @@ class ConvertIsbnCommand extends Command
 	 */
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
-		$filename = $input->getArgument('source');
+		$source = $input->getArgument('source');
+		$destination = $input->getArgument('destination');
 
 		// Check if the file exists.
-		if (!file_exists($filename) || $this->isEmpty($filename)) throw new \RuntimeException("You are trying to open an invalid file. Try with another one.");
+		if (!file_exists($source) || $this->isEmpty($source)) throw new \RuntimeException("You are trying to open an invalid file. Try with another one.");
+		if (! $input->getOption('force')) {
+            $this->verifyDestinationDoesntExist($destination);
+        }
+
+		// Extract all identifiers and save them in the destination file.
 
 		// Load the file and instantiate CSV Reader and IsbnParser.
-		$csv = Reader::createFromPath($filename);
+		$csv = Reader::createFromPath($source);
 
 		// Set a delimiter for the CSV and check if it is the right one for the file.
 		$delimiter = $input->getOption('delimiter');
@@ -69,9 +76,7 @@ class ConvertIsbnCommand extends Command
 		$output->writeln(sprintf('<info>Found %s column(s) containing ISBNs.</info>', count($indexes)));
 		$output->writeln(sprintf('Processing ISBNs...', count($indexes)));
 
-		// Extract all identifiers and save them in the destination file.
-		$destination = $input->getArgument('destination');
-		if (file_exists($destination)) throw new \RuntimeException('Destination file already exists. Please choose another file name.');
+
 
 		$status = $input->getOption('status');
 

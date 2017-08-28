@@ -26,8 +26,9 @@ class ConvertIsbnCommandTest extends TestCase
 
             // pass arguments to the helper
 			'source' => 'tests/data/ebscotabdelimited.tsv',
-			'destination' => 'tests/data/something' . $this->unique . '.txt',
+			'destination' => 'tests/data/something.txt',
 			'--delimiter' => 'tab',
+			'--force' => true
 			));
 
         // the output of the command in the console
@@ -106,4 +107,6 @@ class ConvertIsbnCommandTest extends TestCase
 			'--delimiter' => 'tab',
 			));
 	}
+
+	// TODO: test status
 }
