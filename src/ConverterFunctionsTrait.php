@@ -2,7 +2,7 @@
 
 trait ConverterFunctionsTrait
 {
-		/**
+	/**
 	 * Check if the delimiter entered is in the white list.
 	 *
 	 * @param  string $delimiter

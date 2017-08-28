@@ -51,7 +51,7 @@ class ConvertIsbnCommand extends Command
 
 		// Check if the file exists.
 		if (!file_exists($filename) || $this->isEmpty($filename)) throw new \RuntimeException("You are trying to open an invalid file. Try with another one.");
-		
+
 		// Load the file and instantiate CSV Reader and IsbnParser.
 		$csv = Reader::createFromPath($filename);
 
@@ -67,37 +67,36 @@ class ConvertIsbnCommand extends Command
 		if (! $indexes = $parser->findAllIndexes($first25Rows)) throw new \RuntimeException("No ISBNs found. Try to use a different delimiter or load another file.");
 
 		$output->writeln(sprintf('<info>Found %s column(s) containing ISBNs.</info>', count($indexes)));
-		$output->writeln(sprintf('Processing file...', count($indexes)));
+		$output->writeln(sprintf('Processing ISBNs...', count($indexes)));
 
 		// Extract all identifiers and save them in the destination file.
 		$destination = $input->getArgument('destination');
 		$status = $input->getOption('status');
-		$handle = fopen($destination, 'a');
 
 		// Create a new progress bar.
 		$progress = new ProgressBar($output);
 		$progress->setRedrawFrequency(100);
 		$progress->start();
 
-		$i = 0;
-		$count = 0;
-		while ($row = $csv->fetchOne($i)) {
+		$identifiersCount = 0;
+		$rowsCount = 0;
+		foreach ($csv as $row) {
+			$handle = fopen($destination, 'a');
 			$identifiers = $parser->collectIdentifiers($row, $indexes);
 			foreach ($identifiers as $identifier) {
 				$line = [$identifier, $status];
 				fputcsv($handle, $line, '	');
 				$progress->advance();
-				$count++;
+				$identifiersCount++;
 			}
-			$i++;
+			$rowsCount++;
+			fclose($handle);
 		}
-		fclose($handle);
 
 		// Confirm the result of the operation.
 		$progress->finish();
 		$output->writeln("");
-		$output->writeln("{$count} identifiers processed succesfully.");
+		$output->writeln("{$rowsCount} rows processed succesfully, {$identifiersCount} identifiers found.");
 		$output->writeln("The file for the dataloader was saved here: <info>{$destination}.</info>");
-
 	}
 }
