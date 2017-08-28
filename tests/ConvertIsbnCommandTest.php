@@ -14,6 +14,8 @@ class ConvertIsbnCommandTest extends TestCase
 
 		$this->command = $this->application->find('convert:isbn');
 		$this->commandTester = new CommandTester($this->command);
+
+		$this->unique = md5(date(DATE_RFC2822));
 	}
 
 	/** @test */
@@ -24,7 +26,7 @@ class ConvertIsbnCommandTest extends TestCase
 
             // pass arguments to the helper
 			'source' => 'tests/data/ebscotabdelimited.tsv',
-			'destination' => 'tests/data/something.txt',
+			'destination' => 'tests/data/something' . $this->unique . '.txt',
 			'--delimiter' => 'tab',
 			));
 
@@ -86,11 +88,22 @@ class ConvertIsbnCommandTest extends TestCase
 
 		$this->commandTester->execute(array(
 			'command'  => $this->command->getName(),
-
-            // pass arguments to the helper
 			'source' => 'tests/data/nonexisting.tsv',
 			'destination' => 'tests/data/output.txt',
 			'--delimiter' => 'colon',
+			));
+	}
+
+	/** @test */
+	public function it_throws_an_exception_if_the_destination_file_already_exists()
+	{
+		$this->expectException('RuntimeException');
+
+		$this->commandTester->execute(array(
+			'command'  => $this->command->getName(),
+			'source' => 'tests/data/ebscotabdelimited.tsv',
+			'destination' => 'tests/data/existing_file.txt',
+			'--delimiter' => 'tab',
 			));
 	}
 }
