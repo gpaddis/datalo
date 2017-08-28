@@ -96,14 +96,14 @@ class ConvertIsbnCommandTest extends TestCase
 	}
 
 	/** @test */
-	public function it_throws_an_exception_if_the_destination_file_already_exists()
+	public function it_throws_an_exception_if_the_destination_file_already_exists_and_force_is_not_set()
 	{
 		$this->expectException('RuntimeException');
 
 		$this->commandTester->execute(array(
 			'command'  => $this->command->getName(),
 			'source' => 'tests/data/ebscotabdelimited.tsv',
-			'destination' => 'tests/data/existing_file.txt',
+			'destination' => 'tests/data/ebscotabdelimited.tsv',
 			'--delimiter' => 'tab',
 			));
 	}

@@ -50,16 +50,16 @@ class ConvertIsbnCommand extends Command
 	{
 		$source = $input->getArgument('source');
 		$destination = $input->getArgument('destination');
+		$status = $input->getOption('status');
 
-		// Check if the file exists.
+		// Check if the source file exists or is empty.
 		if (!file_exists($source) || $this->isEmpty($source)) throw new \RuntimeException("You are trying to open an invalid file. Try with another one.");
+
+		// Unless --force is set, check if destination file already exists.
 		if (! $input->getOption('force')) {
             $this->verifyDestinationDoesntExist($destination);
         }
 
-		// Extract all identifiers and save them in the destination file.
-
-		// Load the file and instantiate CSV Reader and IsbnParser.
 		$csv = Reader::createFromPath($source);
 
 		// Set a delimiter for the CSV and check if it is the right one for the file.
@@ -75,10 +75,6 @@ class ConvertIsbnCommand extends Command
 
 		$output->writeln(sprintf('<info>Found %s column(s) containing ISBNs.</info>', count($indexes)));
 		$output->writeln(sprintf('Processing ISBNs...', count($indexes)));
-
-
-
-		$status = $input->getOption('status');
 
 		// Create a new progress bar.
 		$progress = new ProgressBar($output);
