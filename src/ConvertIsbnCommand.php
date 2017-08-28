@@ -57,8 +57,8 @@ class ConvertIsbnCommand extends Command
 
 		// Unless --force is set, check if destination file already exists.
 		if (! $input->getOption('force')) {
-            $this->verifyDestinationDoesntExist($destination);
-        }
+			$this->verifyDestinationDoesntExist($destination);
+		}
 
 		$csv = Reader::createFromPath($source);
 
@@ -97,10 +97,16 @@ class ConvertIsbnCommand extends Command
 			fclose($handle);
 		}
 
-		// Confirm the result of the operation.
 		$progress->finish();
 		$output->writeln("");
 		$output->writeln("{$rowsCount} rows processed succesfully, {$identifiersCount} identifiers found.");
-		$output->writeln("The file for the dataloader was saved here: <info>{$destination}.</info>");
+
+		// Remove duplicate identifiers.
+		$output->writeln("Removing duplicates... ");
+		$uniqueIdentifiers = $this->removeDuplicates($destination);
+		$output->writeln("<info>Done: {$uniqueIdentifiers} unique identifiers saved.</info>");
+
+		// Confirm the result of the operation.
+		$output->writeln("You can upload this file to the dataloader: <info>{$destination}.</info>");
 	}
 }

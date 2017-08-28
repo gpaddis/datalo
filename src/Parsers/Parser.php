@@ -97,7 +97,7 @@ abstract class Parser
     }
 
     /**
-     * Collect all unique identifiers from a single row checking only in the columns specified
+     * Collect all identifiers from a single row checking only in the columns specified
      * and return them in a sorted array.
      *
      * @param  array $row      The row to analyze.
@@ -115,7 +115,7 @@ abstract class Parser
                 $result = array_merge($identifiers, $result);
             }
         }
-        return array_unique($result);
+        return $result;
     }
 
     /**

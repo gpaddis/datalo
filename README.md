@@ -3,8 +3,10 @@
 
 **Warning: this software is in development and is not fully functional yet.** Watch the repository to be informed when the first version will be released.
 
-When we perform operations on SFX target portfolios via the *dataloader*, we need a clean list of ISBNs or ISSNs in a tab separated file. 
-Usually, we have to fetch the identifiers manually from non standardized lists in delimiter-separated formats (CSV, TSV) or Excel worksheets. The identifiers we need are sometimes merged in single fields, connected with different separators each time. This is an extract of such a list:
+When we perform operations on SFX target portfolios via the *dataloader*, we need a clean list of ISBNs or ISSNs in a tab separated file.
+Usually, we have to fetch the identifiers manually from non standardized lists in delimiter-separated formats (CSV, TSV) or Excel worksheets. The identifiers we need are sometimes merged in single fields, arbitrarily separated by different delimiters each time.
+
+This is an extract of such a list:
 
 ```
 "Author"	"Editor"	"Illustrator"	"PrintISSN"	"OnlineISSN"	"PrintISBN"	"OnlineISBN"

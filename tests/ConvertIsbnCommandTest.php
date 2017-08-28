@@ -14,8 +14,6 @@ class ConvertIsbnCommandTest extends TestCase
 
 		$this->command = $this->application->find('convert:isbn');
 		$this->commandTester = new CommandTester($this->command);
-
-		$this->unique = md5(date(DATE_RFC2822));
 	}
 
 	/** @test */
@@ -23,10 +21,8 @@ class ConvertIsbnCommandTest extends TestCase
 	{
 		$this->commandTester->execute(array(
 			'command'  => $this->command->getName(),
-
-            // pass arguments to the helper
 			'source' => 'tests/data/ebscotabdelimited.tsv',
-			'destination' => 'tests/data/something.txt',
+			'destination' => 'tests/data/output.txt',
 			'--delimiter' => 'tab',
 			'--force' => true
 			));
@@ -44,10 +40,8 @@ class ConvertIsbnCommandTest extends TestCase
 
 		$this->commandTester->execute(array(
 			'command'  => $this->command->getName(),
-
-            // pass arguments to the helper
 			'source' => 'tests/data/ebscotabdelimited.tsv',
-			'destination' => 'tests/data/output.txt',
+			'destination' => 'tests/data/somefile.txt',
 			'--delimiter' => 'comma',
 			));
 	}
@@ -59,11 +53,9 @@ class ConvertIsbnCommandTest extends TestCase
 
 		$this->commandTester->execute(array(
 			'command'  => $this->command->getName(),
-
-            // pass arguments to the helper
 			'source' => 'tests/data/ebscotabdelimited.tsv',
-			'destination' => 'tests/data/output.txt',
-			'--delimiter' => 'colon',
+			'destination' => 'tests/data/somefile.txt',
+			'--delimiter' => 'space',
 			));
 	}
 
@@ -74,8 +66,6 @@ class ConvertIsbnCommandTest extends TestCase
 
 		$this->commandTester->execute(array(
 			'command'  => $this->command->getName(),
-
-            // pass arguments to the helper
 			'source' => 'tests/data/empty.tsv',
 			'destination' => 'tests/data/output.txt',
 			'--delimiter' => 'colon',

@@ -37,8 +37,28 @@ trait ConverterFunctionsTrait
 		return filesize($file) == 0;
 	}
 
-    protected function verifyDestinationDoesntExist($destination)
-    {
-        if (file_exists($destination)) throw new \RuntimeException('Destination file already exists. Please choose another file name.');
-    }
+	protected function verifyDestinationDoesntExist($destination)
+	{
+		if (file_exists($destination)) throw new \RuntimeException('Destination file already exists. Please choose another file name.');
+	}
+
+	/**
+	 * Remove duplicate rows from the given source file.
+	 * If no destination file is passed, it saves the content in the source file.
+	 * The method returns the number of lines saved in the destination file.
+	 *
+	 * @param  string $source
+	 * @param  string $destination
+	 * @return integer
+	 */
+	protected function removeDuplicates($source, $destination = '')
+	{
+		$destination = $destination ?: $source;
+
+		$lines = file($source, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+		$lines = array_unique($lines);
+		file_put_contents($destination, implode(PHP_EOL, $lines));
+
+		return count($lines);
+	}
 }
