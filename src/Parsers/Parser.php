@@ -29,10 +29,9 @@ abstract class Parser
     {
         $indexes = [];
 
-        foreach ($row as $column => $field) {
-            if ($this->containsIdentifiers($field)) {
-                array_push($indexes, $column);
-            }
+        foreach ($row as $columnNumber => $field) {
+            if ($this->containsIdentifiers($field))
+                $indexes[] = $columnNumber;
         }
 
         return $indexes;
@@ -88,9 +87,8 @@ abstract class Parser
         $candidates = $this->split($row[$column]);
 
         foreach ($candidates as $candidate) {
-            if ($this->validate($candidate)) {
-                array_push($result, $this->validator->clean($candidate));
-            }
+            if ($this->validate($candidate))
+                $result[] = $this->clean($candidate);
         }
 
         return $result;
@@ -150,6 +148,17 @@ abstract class Parser
     protected function validate(string $identifier) : bool
     {
         return $this->validator->validate($identifier);
+    }
+
+    /**
+     * Use the clean() function of the validator passed in the constructor.
+     *
+     * @param  string $identifier
+     * @return string
+     */
+    protected function clean(string $identifier) : string
+    {
+        return $this->validator->clean($identifier);
     }
 
     /**

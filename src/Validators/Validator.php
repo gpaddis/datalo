@@ -24,7 +24,7 @@ abstract class Validator
      * @param  string $identifier
      * @return string
      */
-    public function clean($identifier) : string
+    public function clean(string $identifier) : string
     {
         return str_replace(['-', ' '], '', $identifier);
     }
