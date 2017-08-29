@@ -1,19 +1,26 @@
 <?php
 
+use League\Csv\Reader;
 use PHPUnit\Framework\TestCase;
-use Dataloader\ConvertIsbnCommand;
+use Dataloader\IsbnCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class ConvertIsbnCommandTest extends TestCase
+class IsbnCommandTest extends TestCase
 {
 	public function setUp()
 	{
 		$this->application = new Application();
-		$this->application->add(new ConvertIsbnCommand());
+		$this->application->add(new IsbnCommand());
 
-		$this->command = $this->application->find('convert:isbn');
+		$this->command = $this->application->find('isbn');
 		$this->commandTester = new CommandTester($this->command);
+
+		$this->csvSource = Reader::createFromPath('tests/data/ebscotabdelimited.tsv');
+        $this->csvSource->setDelimiter("\t");
+
+        $this->csvDestination = Reader::createFromPath('tests/data/output.txt');
+        $this->csvDestination->setDelimiter("\t");
 	}
 
 	/** @test */
@@ -98,5 +105,23 @@ class ConvertIsbnCommandTest extends TestCase
 			));
 	}
 
-	// TODO: test status
+	/** @test */
+	public function it_can_set_a_custom_status_flag_in_the_second_column()
+	{
+		$this->commandTester->execute(array(
+			'command'  => $this->command->getName(),
+			'source' => 'tests/data/ebscotabdelimited.tsv',
+			'destination' => 'tests/data/output.txt',
+			'--delimiter' => 'tab',
+			'--force' => true,
+			'--status' => 'INACTIVE'
+			));
+
+        // the output of the command in the console
+		$output = $this->commandTester->getDisplay();
+		$this->assertContains('processed succesfully', $output);
+
+		$anyLine = $this->csvDestination->fetchOne(24);
+		$this->assertContains('INACTIVE', $anyLine);
+	}
 }

@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ConvertIsbnCommand extends Command
+class IsbnCommand extends Command
 {
     use ConverterFunctionsTrait;
     /**
@@ -31,7 +31,7 @@ class ConvertIsbnCommand extends Command
      */
     public function configure()
     {
-        $this->setName('convert:isbn')
+        $this->setName('isbn')
         ->setDescription('Generate a list of ISBNs')
         ->addArgument('source', InputArgument::REQUIRED, 'The delimiter-separated source file you want to process')
         ->addArgument('destination', InputArgument::REQUIRED, 'The name of the tab separated file for the SFX Dataloader')
