@@ -61,4 +61,10 @@ trait ConverterFunctionsTrait
 
 		return count($lines);
 	}
+
+	protected function countLines($file)
+	{
+		$lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+		return count($lines);
+	}
 }
