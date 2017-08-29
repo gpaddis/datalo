@@ -1,14 +1,9 @@
-#! /usr/bin/env php
-
+#!/usr/bin/env php
 <?php
-
-use Dataloader\ConvertIsbnCommand;
-use Symfony\Component\Console\Application;
 
 require 'vendor/autoload.php';
 
-$app = new Application('ISBN & ISSN list generator for the SFX Dataloader.', '1.0');
-
-$app->add(new ConvertIsbnCommand);
+$app = new Symfony\Component\Console\Application('ISBN & ISSN list generator for the SFX Dataloader.', '1.0');
+$app->add(new Dataloader\ConvertIsbnCommand);
 
 $app->run();
