@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use Dataloader\Validators\IsbnValidator;
 
-class IsbnTest extends TestCase
+class IsbnValidatorTest extends TestCase
 {
     public function setUp()
     {
