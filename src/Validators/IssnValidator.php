@@ -32,7 +32,7 @@ class IssnValidator extends Validator
         $weightingFactor = 8;
         $sum = 0;
         while ($index < 7) {
-            $sum += $digits[$index++] * $weightingFactor--;
+            $sum += ((int) $digits[$index++] * $weightingFactor--);
         }
 
         $remainder = $sum % 11;
