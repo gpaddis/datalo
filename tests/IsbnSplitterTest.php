@@ -1,13 +1,13 @@
-<?php 
+<?php
 
 use PHPUnit\Framework\TestCase;
-use Dataloader\Splitters\IsbnSplitter;
+use Dataloader\Splitters\Splitter;
 
 class IsbnSplitterTest extends TestCase
 {
 	public function setUp()
 	{
-		$this->splitter = new IsbnSplitter;
+		$this->splitter = new Splitter;
 	}
     /** @test */
     public function it_splits_a_field_containing_multiple_isbns_to_an_array()
