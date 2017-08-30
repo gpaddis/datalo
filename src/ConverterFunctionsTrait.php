@@ -23,7 +23,7 @@ trait ConverterFunctionsTrait
 	 */
 	protected function checkForBadDelimiter($csv)
 	{
-		if (count($csv->fetchOne(1)) <= 1) throw new \RuntimeException("You didn't choose the appropriate delimiter. Try with another one.");
+		if (count($csv->fetchOne(1)) <= 1) throw new \RuntimeException("You didn't choose the appropriate delimiter for the file. Try with another one.");
 	}
 
 	/**
@@ -39,7 +39,7 @@ trait ConverterFunctionsTrait
 
 	protected function verifyDestinationDoesntExist($destination)
 	{
-		if (file_exists($destination)) throw new \RuntimeException('Destination file already exists. Please choose another file name.');
+		if (file_exists($destination)) throw new \RuntimeException('Destination file already exists. Please choose another file name or use the --force option to overwrite it.');
 	}
 
 	/**
