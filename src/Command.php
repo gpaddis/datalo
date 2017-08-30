@@ -26,7 +26,7 @@ abstract class Command extends SymfonyCommand
      */
     protected $delimiters = [
     'comma' => ',',
-    'tab' => '	',
+    'tab' => "\t",
     'semicolon' => ';'
     ];
 
@@ -96,7 +96,7 @@ abstract class Command extends SymfonyCommand
 
         // Save the content to the file
         $writer = Writer::createFromPath($destination, 'w+')
-        ->setDelimiter('	')
+        ->setDelimiter("\t")
         ->insertAll($content);
 
         $progress->finish();
