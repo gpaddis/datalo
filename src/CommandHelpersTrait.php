@@ -3,17 +3,17 @@
 trait CommandHelpersTrait
 {
 	/**
-	 * Check if the number of columns in the heading corresponds to the number
-	 * of columns in the first row, and if this number is greater than one.
+	 * Check if the number of columns in the header corresponds to the number
+	 * of columns in the first row, and if the row contains more than one column.
 	 *
 	 * @param  League\Csv\Reader $csv
 	 * @return boolean
 	 */
-	public function matchColumnNumbers(\League\Csv\Reader $csv)
+	public function matchNumberOfColumns(array $header, array $firstRow) : bool
 	{
-		$heading = count($csv->fetchOne(0));
-		$firstRow = count($csv->fetchOne(1));
-		return ($heading == $firstRow) && $heading > 1;
+		$headerColumns = count($header);
+		$firstRowColumns = count($firstRow);
+		return ($headerColumns == $firstRowColumns) && $headerColumns > 1;
 	}
 
 	/**
@@ -22,7 +22,7 @@ trait CommandHelpersTrait
 	 * @param  string $delimiter
 	 * @return boolean | RuntimeException
 	 */
-	protected function validateDelimiter($delimiter)
+	protected function validateDelimiter(string $delimiter)
 	{
 		if (! array_key_exists($delimiter, $this->delimiters)) {
 			$delimiters = implode('", "', array_keys($this->delimiters));
@@ -31,13 +31,17 @@ trait CommandHelpersTrait
 	}
 
 	/**
-	 * If there's only one column, this means the delimiter is not correct.
+	 * Check if the delimiter set to the Reader isntance is wrong.
 	 *
 	 * @return void
 	 */
-	protected function checkForBadDelimiter($csv)
+	protected function checkForBadDelimiter(\League\Csv\Reader $csv)
 	{
-		if (count($csv->fetchOne(1)) <= 1) throw new \RuntimeException("You didn't choose the appropriate delimiter for the file. Try with another one.");
+		$header = $csv->fetchOne(0);
+		$firstRow = $csv->fetchOne(1);
+		if (! $this->matchNumberOfColumns($header, $firstRow)) {
+			throw new \RuntimeException("You didn't choose the appropriate delimiter for the file. Try with another one.");
+		}
 	}
 
 	/**
