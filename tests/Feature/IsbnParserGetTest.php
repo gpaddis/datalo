@@ -12,7 +12,8 @@ class IsbnParserGetTest extends TestCase
         $this->csv->setDelimiter("\t");
 
         $this->parser = IsbnParser::make();
-        $rows = $this->csv->setOffset(1)->setLimit(10)->fetchAll();;
+        $rows = $this->csv->setOffset(1)->setLimit(10)->fetchAll();
+        ;
         $this->columns = $this->parser->findAllIndexes($rows);
     }
 
@@ -53,6 +54,4 @@ class IsbnParserGetTest extends TestCase
     {
         $this->assertEquals([], $this->parser->collectIdentifiers());
     }
-
-
 }

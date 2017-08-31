@@ -12,8 +12,12 @@ class IssnValidator extends Validator
      */
     public function validate(string $issn) : bool
     {
-        if (! $this->checkStructure($issn)) return false;
-        if (! $this->checkLength($issn)) return false;
+        if (! $this->checkStructure($issn)) {
+            return false;
+        }
+        if (! $this->checkLength($issn)) {
+            return false;
+        }
 
         return $this->checkDigit($issn) == $this->lastDigit($issn);
     }
@@ -39,7 +43,9 @@ class IssnValidator extends Validator
         $remainder = $sum % 11;
         $checkDigit = 11 - $remainder;
 
-        if ($checkDigit == 10) return 'X';
+        if ($checkDigit == 10) {
+            return 'X';
+        }
         return $checkDigit;
     }
 

@@ -30,8 +30,9 @@ abstract class Parser
         $indexes = [];
 
         foreach ($row as $columnNumber => $field) {
-            if ($this->containsIdentifiers($field))
+            if ($this->containsIdentifiers($field)) {
                 $indexes[] = $columnNumber;
+            }
         }
 
         return $indexes;
@@ -48,7 +49,9 @@ abstract class Parser
         $candidates = $this->split($field);
 
         foreach ($candidates as $candidate) {
-            if ($this->validate($candidate)) return true;
+            if ($this->validate($candidate)) {
+                return true;
+            }
         }
 
         return false;
@@ -87,8 +90,9 @@ abstract class Parser
         $candidates = $this->split($row[$column]);
 
         foreach ($candidates as $candidate) {
-            if ($this->validate($candidate))
+            if ($this->validate($candidate)) {
                 $result[] = $this->clean($candidate);
+            }
         }
 
         return $result;
@@ -107,7 +111,7 @@ abstract class Parser
         $result = [];
 
         foreach ($columns as $column) {
-            if ($this->exists($column, $row)){
+            if ($this->exists($column, $row)) {
                 $identifiers = $this->extractIdentifiersFromField($row, $column);
 
                 $result = array_merge($identifiers, $result);

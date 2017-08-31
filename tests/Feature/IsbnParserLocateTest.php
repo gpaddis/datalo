@@ -43,7 +43,8 @@ class IsbnParserLocateTest extends TestCase
     /** @test */
     public function it_collects_all_columns_containing_ISBNs_over_multiple_rows()
     {
-        $rows = $this->csv->setOffset(1)->setLimit(10)->fetchAll();;
+        $rows = $this->csv->setOffset(1)->setLimit(10)->fetchAll();
+        ;
         $columns = $this->parser->findAllIndexes($rows);
 
         $this->assertEquals([14, 15, 16, 17, 18, 19, 20, 21], $columns);
