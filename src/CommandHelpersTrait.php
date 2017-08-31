@@ -3,8 +3,8 @@
 trait CommandHelpersTrait
 {
 	/**
-	 * Check if the number of columns in the header corresponds to the number
-	 * of columns in the first row, and if the row contains more than one column.
+	 * Check if the number of columns in the header corresponds to the number of
+	 * columns in the first row, and if the header contains more than one column.
 	 *
 	 * @param  League\Csv\Reader $csv
 	 * @return boolean
@@ -15,6 +15,21 @@ trait CommandHelpersTrait
 		$firstRowColumns = count($firstRow);
 		return ($headerColumns == $firstRowColumns) && $headerColumns > 1;
 	}
+
+    public function autodetectDelimiter(\League\Csv\Reader $csv)
+    {
+        $delimiters = [",", "\t", ";"];
+
+        foreach ($delimiters as $delimiter) {
+            $csv->setDelimiter($delimiter);
+            $header = $csv->fetchOne(0);
+            $firstRow = $csv->fetchOne(1);
+
+            if ($this->matchNumberOfColumns($header, $firstRow)) return $delimiter;
+        }
+
+        throw new \RuntimeException("I could not autodetect the correct delimiter. Either the file is corrupted or you can try with a custom delimiter (option --delimiter).");
+    }
 
 	/**
 	 * Check if the delimiter entered is in the white list.

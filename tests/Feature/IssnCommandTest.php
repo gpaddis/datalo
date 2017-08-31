@@ -30,7 +30,6 @@ class IssnCommandTest extends TestCase
             'command'  => $this->command->getName(),
             'source' => 'tests/data/journals.csv',
             'destination' => 'tests/data/output_journals.txt',
-            '--delimiter' => 'tab',
             '--force' => true
             ));
 
@@ -38,33 +37,6 @@ class IssnCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
         $this->assertContains('processed succesfully', $output);
         $this->assertContains('90', $output);
-    }
-
-    /** @test */
-    public function it_throws_a_runtime_exception_if_the_delimiter_is_incorrect()
-    {
-        $this->expectException('RuntimeException');
-
-        $this->commandTester->execute(array(
-            'command'  => $this->command->getName(),
-            'source' => 'tests/data/journals.csv',
-            'destination' => 'tests/data/somefile.txt',
-            '--delimiter' => 'comma',
-            ));
-    }
-
-        /** @test */
-    public function it_throws_an_invalid_argument_exception_if_the_delimiter_is_not_allowed()
-    {
-        $this->expectException('InvalidArgumentException');
-
-        $this->commandTester->execute(array(
-            'command'  => $this->command->getName(),
-            'source' => 'tests/data/journals.csv',
-            'destination' => 'tests/data/somefile.txt',
-            '--delimiter' => 'space',
-            '--force' => true
-            ));
     }
 
     /** @test */
@@ -76,7 +48,18 @@ class IssnCommandTest extends TestCase
             'command'  => $this->command->getName(),
             'source' => 'tests/data/empty.tsv',
             'destination' => 'tests/data/output_journals.txt',
-            '--delimiter' => 'colon',
+            ));
+    }
+
+    /** @test */
+    public function it_throws_an_exception_if_the_delimiter_is_not_detected_automatically()
+    {
+        $this->expectException('RuntimeException');
+
+        $this->commandTester->execute(array(
+            'command'  => $this->command->getName(),
+            'source' => 'tests/data/journals.colondelimited.csv',
+            'destination' => 'tests/data/output_journals.txt',
             ));
     }
 
@@ -89,7 +72,6 @@ class IssnCommandTest extends TestCase
             'command'  => $this->command->getName(),
             'source' => 'tests/data/nonexisting.tsv',
             'destination' => 'tests/data/output_journals.txt',
-            '--delimiter' => 'colon',
             ));
     }
 
@@ -102,7 +84,6 @@ class IssnCommandTest extends TestCase
             'command'  => $this->command->getName(),
             'source' => 'tests/data/journals.csv',
             'destination' => 'tests/data/journals.csv',
-            '--delimiter' => 'tab',
             ));
     }
 
@@ -113,7 +94,6 @@ class IssnCommandTest extends TestCase
             'command'  => $this->command->getName(),
             'source' => 'tests/data/journals.csv',
             'destination' => 'tests/data/output_journals.txt',
-            '--delimiter' => 'tab',
             '--force' => true,
             '--status' => 'INACTIVE'
             ));

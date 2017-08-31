@@ -30,7 +30,6 @@ class IsbnCommandTest extends TestCase
             'command'  => $this->command->getName(),
             'source' => 'tests/data/ebooks.tsv',
             'destination' => 'tests/data/output.txt',
-            '--delimiter' => 'tab',
             '--force' => true
             ));
 
@@ -49,21 +48,6 @@ class IsbnCommandTest extends TestCase
             'command'  => $this->command->getName(),
             'source' => 'tests/data/ebooks.tsv',
             'destination' => 'tests/data/somefile.txt',
-            '--delimiter' => 'comma',
-            ));
-    }
-
-        /** @test */
-    public function it_throws_an_invalid_argument_exception_if_the_delimiter_is_not_allowed()
-    {
-        $this->expectException('InvalidArgumentException');
-
-        $this->commandTester->execute(array(
-            'command'  => $this->command->getName(),
-            'source' => 'tests/data/ebooks.tsv',
-            'destination' => 'tests/data/somefile.txt',
-            '--delimiter' => 'space',
-            '--force' => true
             ));
     }
 
@@ -76,7 +60,6 @@ class IsbnCommandTest extends TestCase
             'command'  => $this->command->getName(),
             'source' => 'tests/data/empty.tsv',
             'destination' => 'tests/data/output.txt',
-            '--delimiter' => 'colon',
             ));
     }
 
@@ -89,7 +72,6 @@ class IsbnCommandTest extends TestCase
             'command'  => $this->command->getName(),
             'source' => 'tests/data/nonexisting.tsv',
             'destination' => 'tests/data/output.txt',
-            '--delimiter' => 'colon',
             ));
     }
 
@@ -102,7 +84,6 @@ class IsbnCommandTest extends TestCase
             'command'  => $this->command->getName(),
             'source' => 'tests/data/ebooks.tsv',
             'destination' => 'tests/data/ebooks.tsv',
-            '--delimiter' => 'tab',
             ));
     }
 
@@ -113,7 +94,6 @@ class IsbnCommandTest extends TestCase
             'command'  => $this->command->getName(),
             'source' => 'tests/data/ebooks.tsv',
             'destination' => 'tests/data/output.txt',
-            '--delimiter' => 'tab',
             '--force' => true,
             '--status' => 'INACTIVE'
             ));

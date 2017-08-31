@@ -33,4 +33,11 @@ class CommandHelpersTest extends TestCase
         $firstRow = [1];
         $this->assertFalse($this->command->matchNumberOfColumns($header, $firstRow));
     }
+
+    /** @test */
+    public function it_autodetects_the_correct_delimiter()
+    {
+        $csv = \League\Csv\Reader::createFromPath('tests/data/ebooks.tsv');
+        $this->assertEquals("\t", $this->command->autodetectDelimiter($csv));
+    }
 }

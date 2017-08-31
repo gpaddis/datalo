@@ -20,17 +20,6 @@ abstract class Command extends SymfonyCommand
     protected $parser;
 
     /**
-     * An array of the allowed delimiters.
-     *
-     * @var array
-     */
-    protected $delimiters = [
-    'comma' => ',',
-    'tab' => "\t",
-    'semicolon' => ';'
-    ];
-
-    /**
      * Command constructor.
      *
      * @param Dataloader\Parsers\Parser $parser
@@ -63,15 +52,15 @@ abstract class Command extends SymfonyCommand
             $this->verifyDestinationDoesntExist($destination);
         }
 
-        // Set a delimiter for the CSV and check if it is the right one for the file.
-        $this->validateDelimiter($delimiter);
-        $csv = Reader::createFromPath($source)
-            ->setDelimiter($this->delimiters[$delimiter]);
-        $this->checkForBadDelimiter($csv);
+        // Autodetect the delimiter for the file if none is specified.
+        $csv = Reader::createFromPath($source);
+
+        $delimiter = $delimiter ?? $this->autodetectDelimiter($csv);
+        $csv->setDelimiter($delimiter);
 
         // Check if the parser finds columns containing identifiers.
         $first25Rows = $csv->setOffset(1)->setLimit(25)->fetchAll();
-        if (! $indexes = $this->parser->findAllIndexes($first25Rows)) throw new \RuntimeException("No identifiers found. Try to use a different delimiter or load another file.");
+        if (! $indexes = $this->parser->findAllIndexes($first25Rows)) throw new \RuntimeException("No identifiers found in the source file.");
 
         $output->writeln(sprintf('<info>Found %s column(s) containing identifiers.</info>', count($indexes)));
         $output->writeln(sprintf('Processing file...', count($indexes)));
