@@ -1,6 +1,6 @@
 <?php namespace Dataloader;
 
-trait ConverterFunctionsTrait
+trait CommandMethodsTrait
 {
 	/**
 	 * Check if the delimiter entered is in the white list.
