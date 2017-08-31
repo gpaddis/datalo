@@ -10,7 +10,7 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 abstract class Command extends SymfonyCommand
 {
-    use CommandMethodsTrait;
+    use CommandHelpersTrait;
 
     /**
      * The Parser instance.

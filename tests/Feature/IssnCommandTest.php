@@ -1,35 +1,35 @@
 <?php
 
 use League\Csv\Reader;
+use Dataloader\IssnCommand;
 use PHPUnit\Framework\TestCase;
-use Dataloader\IsbnCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class IsbnCommandTest extends TestCase
+class IssnCommandTest extends TestCase
 {
     public function setUp()
     {
         $this->application = new Application();
-        $this->application->add(new IsbnCommand());
+        $this->application->add(new IssnCommand());
 
-        $this->command = $this->application->find('isbn');
+        $this->command = $this->application->find('issn');
         $this->commandTester = new CommandTester($this->command);
 
-        $this->csvSource = Reader::createFromPath('tests/data/ebooks.tsv');
+        $this->csvSource = Reader::createFromPath('tests/data/journals.csv');
         $this->csvSource->setDelimiter("\t");
 
-        $this->csvDestination = Reader::createFromPath('tests/data/output.txt');
+        $this->csvDestination = Reader::createFromPath('tests/data/output_journals.txt');
         $this->csvDestination->setDelimiter("\t");
     }
 
     /** @test */
-    public function it_converts_a_tsv_ebook_list()
+    public function it_converts_a_tsv_journals_list()
     {
         $this->commandTester->execute(array(
             'command'  => $this->command->getName(),
-            'source' => 'tests/data/ebooks.tsv',
-            'destination' => 'tests/data/output.txt',
+            'source' => 'tests/data/journals.csv',
+            'destination' => 'tests/data/output_journals.txt',
             '--delimiter' => 'tab',
             '--force' => true
             ));
@@ -37,7 +37,7 @@ class IsbnCommandTest extends TestCase
         // the output of the command in the console
         $output = $this->commandTester->getDisplay();
         $this->assertContains('processed succesfully', $output);
-        $this->assertContains('239', $output);
+        $this->assertContains('90', $output);
     }
 
     /** @test */
@@ -47,7 +47,7 @@ class IsbnCommandTest extends TestCase
 
         $this->commandTester->execute(array(
             'command'  => $this->command->getName(),
-            'source' => 'tests/data/ebooks.tsv',
+            'source' => 'tests/data/journals.csv',
             'destination' => 'tests/data/somefile.txt',
             '--delimiter' => 'comma',
             ));
@@ -60,9 +60,10 @@ class IsbnCommandTest extends TestCase
 
         $this->commandTester->execute(array(
             'command'  => $this->command->getName(),
-            'source' => 'tests/data/ebooks.tsv',
+            'source' => 'tests/data/journals.csv',
             'destination' => 'tests/data/somefile.txt',
             '--delimiter' => 'space',
+            '--force' => true
             ));
     }
 
@@ -74,7 +75,7 @@ class IsbnCommandTest extends TestCase
         $this->commandTester->execute(array(
             'command'  => $this->command->getName(),
             'source' => 'tests/data/empty.tsv',
-            'destination' => 'tests/data/output.txt',
+            'destination' => 'tests/data/output_journals.txt',
             '--delimiter' => 'colon',
             ));
     }
@@ -87,7 +88,7 @@ class IsbnCommandTest extends TestCase
         $this->commandTester->execute(array(
             'command'  => $this->command->getName(),
             'source' => 'tests/data/nonexisting.tsv',
-            'destination' => 'tests/data/output.txt',
+            'destination' => 'tests/data/output_journals.txt',
             '--delimiter' => 'colon',
             ));
     }
@@ -99,8 +100,8 @@ class IsbnCommandTest extends TestCase
 
         $this->commandTester->execute(array(
             'command'  => $this->command->getName(),
-            'source' => 'tests/data/ebooks.tsv',
-            'destination' => 'tests/data/ebooks.tsv',
+            'source' => 'tests/data/journals.csv',
+            'destination' => 'tests/data/journals.csv',
             '--delimiter' => 'tab',
             ));
     }
@@ -110,8 +111,8 @@ class IsbnCommandTest extends TestCase
     {
         $this->commandTester->execute(array(
             'command'  => $this->command->getName(),
-            'source' => 'tests/data/ebooks.tsv',
-            'destination' => 'tests/data/output.txt',
+            'source' => 'tests/data/journals.csv',
+            'destination' => 'tests/data/output_journals.txt',
             '--delimiter' => 'tab',
             '--force' => true,
             '--status' => 'INACTIVE'

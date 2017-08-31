@@ -1,7 +1,21 @@
 <?php namespace Dataloader;
 
-trait CommandMethodsTrait
+trait CommandHelpersTrait
 {
+	/**
+	 * Check if the number of columns in the heading corresponds to the number
+	 * of columns in the first row, and if this number is greater than one.
+	 *
+	 * @param  League\Csv\Reader $csv
+	 * @return boolean
+	 */
+	public function matchColumnNumbers(\League\Csv\Reader $csv)
+	{
+		$heading = count($csv->fetchOne(0));
+		$firstRow = count($csv->fetchOne(1));
+		return ($heading == $firstRow) && $heading > 1;
+	}
+
 	/**
 	 * Check if the delimiter entered is in the white list.
 	 *
