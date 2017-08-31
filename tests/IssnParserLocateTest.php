@@ -50,10 +50,10 @@ class IssnParserLocateTest extends TestCase
     }
 
     /** @test */
-    // public function it_returns_an_empty_array_if_called_without_arguments()
-    // {
-    //     $columns = $this->parser->findAllIndexes();
+    public function it_returns_an_empty_array_if_called_without_arguments()
+    {
+        $columns = $this->parser->findAllIndexes();
 
-    //     $this->assertEquals([], $columns);
-    // }
+        $this->assertEquals([], $columns);
+    }
 }
