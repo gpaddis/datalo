@@ -5,5 +5,6 @@ require 'vendor/autoload.php';
 
 $app = new Symfony\Component\Console\Application('ISBN & ISSN list generator for the SFX Dataloader.', '1.0');
 $app->add(new Dataloader\IsbnCommand);
+$app->add(new Dataloader\IssnCommand);
 
 $app->run();
