@@ -1,20 +1,22 @@
-# Datalo: SFX Dataloader List Converter
+# Datalo: List Converter for the SFX Dataloader
 [![Build Status](https://travis-ci.org/gpaddis/datalo.svg?branch=master)](https://travis-ci.org/gpaddis/datalo)
 
 **Warning: this software is in development and is not fully functional yet.** Watch the repository to be informed when the first version will be released.
 
-When we perform operations on SFX target portfolios via the *dataloader*, we need a clean list of ISBNs or ISSNs in a tab separated file.
-Usually, we have to fetch the identifiers manually from non standardized lists in delimiter-separated formats (CSV, TSV) or Excel worksheets. The identifiers we need are sometimes merged in single fields, arbitrarily separated by different delimiters each time.
+## A tool for system librarians working with ExLibris' SFX
+When mass updating SFX target portfolios via the *dataloader*, we need a clean, tab separated list of ISBNs or ISSNs.
+Usually, we have to fetch the identifiers manually from messy lists (CSV, TSV, Excel), which have different standards for different publishers. The identifiers we need are sometimes merged in single fields, arbitrarily separated by different delimiters each time.
 
-This is an extract of such a list:
+We start with this...
 
 ```
-"Author"	"Editor"	"Illustrator"	"PrintISSN"	"OnlineISSN"	"PrintISBN"	"OnlineISBN"
-"Centre for Independent Studies"	"Tripp"	" Gregory|Payne"	" Michael|Diodorus"	" Dimitrus"	"978-1-60692-973-5"	"978-0-511-30338-8|978-1-60876-294-1"
-"GMB Publishing Ltd."	"Jervalidze"	" Liana."	"World Bank"	"978-1-905050-35-2"	"978-1-280-48056-0|978-1-905050-84-0"
+KBID,Title,PrintISBN,OnlineISBN,DOI
+63601,Social Capital,978-1-60692-973-5,978-0-511-30338-8|978-1-60876-294-1,
+103645,Georgia: Russian Foreign Energy Policy and Implications for Georgia's Energy Security (Global market briefings),978-1-905050-35-2,978-1-280-48056-0|978-1-905050-84-0,
+117409,"Cellular Neural Networks and Their Applications: Proceedings of the 7th IEEE International Workshop on Cellular Neural Networks and Their Applications: Institute of Applied Physics, Johann Wolfgang Go",978-981-238-121-7,978-1-281-92935-8|978-981-277-679-2,
 ```
 
-The end result we aim for should look like this:
+...aiming for this:
 
 | ISBN | Status |
 | ------ | ------ |
@@ -24,5 +26,9 @@ The end result we aim for should look like this:
 | 9781905050352 | ACTIVE |
 | 9781280480560 | ACTIVE |
 | 9781905050840 | ACTIVE |
+...
 
-**Datalo** parses the first list in search of valid identifiers and generates the second **automatically**.
+**Datalo** parses the first list in search of valid identifiers and generates the second **automatically** within seconds.
+
+## Requirements
+Datalo requires **PHP 7**.

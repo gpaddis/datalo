@@ -44,7 +44,6 @@ class IssnParserLocateTest extends TestCase
     public function it_collects_all_columns_containing_ISSNs_over_multiple_rows()
     {
         $rows = $this->csv->setOffset(1)->setLimit(10)->fetchAll();
-        ;
         $columns = $this->parser->findAllIndexes($rows);
 
         $this->assertEquals([1, 2], $columns);
