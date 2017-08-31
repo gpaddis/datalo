@@ -28,7 +28,7 @@ class IssnValidatorTest extends TestCase
     }
 
     /** @test */
-    public function a_correct_issn_passes_validation()
+    public function a_correct_ISSN_passes_validation()
     {
         $this->assertTrue($this->validator->validate('0017-8012'));
         $this->assertTrue($this->validator->validate('0098-9258'));
@@ -37,7 +37,7 @@ class IssnValidatorTest extends TestCase
     }
 
     /** @test */
-    public function a_wrong_issn_does_not_pass_validation()
+    public function a_wrong_ISSN_does_not_pass_validation()
     {
         $this->assertFalse($this->validator->validate('0098-9253'));
         $this->assertFalse($this->validator->validate('0098-925'));
@@ -49,5 +49,16 @@ class IssnValidatorTest extends TestCase
     public function a_random_text_string_does_not_pass_validation()
     {
         $this->assertFalse($this->validator->validate('foobarbaz'));
+    }
+
+    /** @test */
+    public function a_date_does_not_pass_validation()
+    /**
+     * This happens if we strip all dashed from a date string whose last digit, by coincidence,
+     * corresponds to the check digit of a valid ISSN. This returns a false positive when
+     * checking which columns contain identifiers (IssnParser@analyzerow).
+     */
+    {
+        $this->assertFalse($this->validator->validate('1984-01-01'));
     }
 }

@@ -12,7 +12,8 @@ class IssnValidator extends Validator
      */
     public function validate(string $issn) : bool
     {
-        if (strlen($this->clean($issn)) != 8) return false;
+        if (! $this->checkStructure($issn)) return false;
+        if (! $this->checkLength($issn)) return false;
 
         return $this->checkDigit($issn) == $this->lastDigit($issn);
     }
@@ -43,14 +44,34 @@ class IssnValidator extends Validator
     }
 
     /**
-     * Return the last digit of the given ISSN.
+     * Return the last digit of an ISSN.
      *
      * @param  string $issn
      * @return string
      */
     public function lastDigit(string $issn) : string
     {
-        $digits = str_split($this->clean($issn));
-        return $digits[7];
+        return substr($issn, -1);
+    }
+
+    /**
+     * Check if an ISSN is well formed.
+     *
+     * @param  string $issn
+     * @return boolean
+     */
+    public function checkStructure(string $issn) : bool
+    {
+        return preg_match("/\d{4}-?\d{3}[x|\d]/i", $issn);
+    }
+
+    /**
+     * Check if the length of an ISSN is 8 digits without dashes.
+     * @param  string $issn
+     * @return boolean
+     */
+    public function checkLength($issn)
+    {
+        return strlen($this->clean($issn)) == 8;
     }
 }

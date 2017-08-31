@@ -8,7 +8,7 @@ class IsbnParserLocateTest extends TestCase
 {
     public function setUp()
     {
-        $this->csv = Reader::createFromPath('tests/data/ebscotabdelimited.tsv');
+        $this->csv = Reader::createFromPath('tests/data/ebooks.tsv');
         $this->csv->setDelimiter("\t");
 
         $this->parser = IsbnParser::make();

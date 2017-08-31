@@ -16,7 +16,7 @@ class IsbnCommandTest extends TestCase
         $this->command = $this->application->find('isbn');
         $this->commandTester = new CommandTester($this->command);
 
-        $this->csvSource = Reader::createFromPath('tests/data/ebscotabdelimited.tsv');
+        $this->csvSource = Reader::createFromPath('tests/data/ebooks.tsv');
         $this->csvSource->setDelimiter("\t");
 
         $this->csvDestination = Reader::createFromPath('tests/data/output.txt');
@@ -28,7 +28,7 @@ class IsbnCommandTest extends TestCase
     {
         $this->commandTester->execute(array(
             'command'  => $this->command->getName(),
-            'source' => 'tests/data/ebscotabdelimited.tsv',
+            'source' => 'tests/data/ebooks.tsv',
             'destination' => 'tests/data/output.txt',
             '--delimiter' => 'tab',
             '--force' => true
@@ -47,7 +47,7 @@ class IsbnCommandTest extends TestCase
 
         $this->commandTester->execute(array(
             'command'  => $this->command->getName(),
-            'source' => 'tests/data/ebscotabdelimited.tsv',
+            'source' => 'tests/data/ebooks.tsv',
             'destination' => 'tests/data/somefile.txt',
             '--delimiter' => 'comma',
             ));
@@ -60,7 +60,7 @@ class IsbnCommandTest extends TestCase
 
         $this->commandTester->execute(array(
             'command'  => $this->command->getName(),
-            'source' => 'tests/data/ebscotabdelimited.tsv',
+            'source' => 'tests/data/ebooks.tsv',
             'destination' => 'tests/data/somefile.txt',
             '--delimiter' => 'space',
             ));
@@ -99,8 +99,8 @@ class IsbnCommandTest extends TestCase
 
         $this->commandTester->execute(array(
             'command'  => $this->command->getName(),
-            'source' => 'tests/data/ebscotabdelimited.tsv',
-            'destination' => 'tests/data/ebscotabdelimited.tsv',
+            'source' => 'tests/data/ebooks.tsv',
+            'destination' => 'tests/data/ebooks.tsv',
             '--delimiter' => 'tab',
             ));
     }
@@ -110,7 +110,7 @@ class IsbnCommandTest extends TestCase
     {
         $this->commandTester->execute(array(
             'command'  => $this->command->getName(),
-            'source' => 'tests/data/ebscotabdelimited.tsv',
+            'source' => 'tests/data/ebooks.tsv',
             'destination' => 'tests/data/output.txt',
             '--delimiter' => 'tab',
             '--force' => true,
