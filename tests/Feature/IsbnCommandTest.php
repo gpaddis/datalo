@@ -40,18 +40,6 @@ class IsbnCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_a_runtime_exception_if_the_delimiter_is_incorrect()
-    {
-        $this->expectException('RuntimeException');
-
-        $this->commandTester->execute(array(
-            'command'  => $this->command->getName(),
-            'source' => 'tests/data/ebooks.tsv',
-            'destination' => 'tests/data/somefile.txt',
-            ));
-    }
-
-    /** @test */
     public function it_throws_an_exception_if_the_source_file_is_empty()
     {
         $this->expectException('RuntimeException');
