@@ -64,6 +64,22 @@ class IssnCommandTest extends TestCase
     }
 
     /** @test */
+    public function it_accepts_a_custom_delimiter()
+    {
+        $this->commandTester->execute(array(
+            'command'  => $this->command->getName(),
+            'source' => 'tests/data/journals.colondelimited.csv',
+            'destination' => 'tests/data/output_journals.txt',
+            '--delimiter' => ':',
+            '--force' => true
+            ));
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertContains('processed succesfully', $output);
+        $this->assertContains('90', $output);
+    }
+
+    /** @test */
     public function it_throws_an_exception_if_the_source_file_does_not_exists()
     {
         $this->expectException('RuntimeException');
