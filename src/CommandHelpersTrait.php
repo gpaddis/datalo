@@ -16,7 +16,13 @@ trait CommandHelpersTrait
         return ($headerColumns == $firstRowColumns) && $headerColumns > 1;
     }
 
-    public function autodetectDelimiter(\League\Csv\Reader $csv)
+    /**
+     * Autodetect the delimiter in the csv file passed.
+     *
+     * @param  \League\Csv\Reader $csv
+     * @return string
+     */
+    public function autodetectDelimiter(\League\Csv\Reader $csv) : string
     {
         $delimiters = [",", "\t", ";"];
 
@@ -30,25 +36,11 @@ trait CommandHelpersTrait
             }
         }
 
-        throw new \RuntimeException("I could not autodetect the correct delimiter. Either the file is corrupted or you can try with a custom delimiter (option --delimiter).");
+        throw new \RuntimeException("Unable to autodetect the correct delimiter. Either the file is corrupted or you can try with a custom delimiter (option --delimiter).");
     }
 
     /**
-     * Check if the delimiter entered is in the white list.
-     *
-     * @param  string $delimiter
-     * @return boolean | RuntimeException
-     */
-    protected function validateDelimiter(string $delimiter)
-    {
-        if (! array_key_exists($delimiter, $this->delimiters)) {
-            $delimiters = implode('", "', array_keys($this->delimiters));
-            throw new \InvalidArgumentException("You entered an invalid delimiter. Try with \"{$delimiters}\".");
-        }
-    }
-
-    /**
-     * Check if the delimiter set to the Reader isntance is wrong.
+     * Check whether the delimiter set in the Reader instance is wrong.
      *
      * @return void
      */
@@ -67,12 +59,18 @@ trait CommandHelpersTrait
      * @param  string  $file
      * @return boolean
      */
-    protected function isEmpty($file) : bool
+    protected function isEmpty(string $file) : bool
     {
         return filesize($file) == 0;
     }
 
-    protected function verifyDestinationDoesntExist($destination)
+    /**
+     * Verify if the destination file does not exist.
+     *
+     * @param  string $destination
+     * @return void
+     */
+    protected function verifyDestinationDoesntExist(string $destination)
     {
         if (file_exists($destination)) {
             throw new \RuntimeException('Destination file already exists. Please choose another file name or use the --force option to overwrite it.');
@@ -85,7 +83,7 @@ trait CommandHelpersTrait
      * @param  string $file
      * @return integer
      */
-    protected function countLines($file)
+    protected function countLines(string $file) : int
     {
         $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         return count($lines);

@@ -3,7 +3,7 @@
 
 **Warning: this software is in development and is not fully functional yet.** Watch the repository to be informed when the first version will be released.
 
-## A tool for system librarians working with ExLibris' SFX
+## A tool for librarians working with ExLibris' SFX
 When mass updating SFX target portfolios via the *dataloader*, we need a clean, tab separated list of ISBNs or ISSNs.
 Usually, we have to fetch the identifiers manually from messy lists (CSV, TSV, Excel), which have different standards for different publishers. The identifiers we need are sometimes merged in single fields, arbitrarily separated by different delimiters each time.
 
