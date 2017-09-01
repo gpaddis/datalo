@@ -33,8 +33,8 @@ abstract class Command extends SymfonyCommand
     /**
      * Execute the command.
      *
-     * @param  InputInterface  $input
-     * @param  OutputInterface $output
+     * @param  Symfony\Component\Console\Input\InputInterface  $input
+     * @param  Symfony\Component\Console\Output\OutputInterface $output
      * @return void
      */
     public function execute(InputInterface $input, OutputInterface $output)
@@ -54,17 +54,14 @@ abstract class Command extends SymfonyCommand
             $this->verifyDestinationDoesntExist($destination);
         }
 
-        // Autodetect the delimiter for the file if none is specified.
         $csv = Reader::createFromPath($source);
 
+        // Autodetect the delimiter for the file if none is specified.
         $delimiter = $delimiter ?? $this->autodetectDelimiter($csv);
         $csv->setDelimiter($delimiter);
 
         // Check if the parser finds columns containing identifiers.
-        $first25Rows = $csv->setOffset(1)->setLimit(25)->fetchAll();
-        if (! $indexes = $this->parser->findAllIndexes($first25Rows)) {
-            throw new \RuntimeException("No identifiers found in the source file.");
-        }
+        $indexes = $this->findIdentifierColumns($csv);
 
         $output->writeln(sprintf('<info>Found %s column(s) containing identifiers.</info>', count($indexes)));
         $output->writeln(sprintf('Processing file...', count($indexes)));

@@ -48,6 +48,7 @@ trait CommandHelpersTrait
     {
         $header = $csv->fetchOne(0);
         $firstRow = $csv->fetchOne(1);
+
         if (! $this->matchNumberOfColumns($header, $firstRow)) {
             throw new \RuntimeException("You didn't choose the appropriate delimiter for the file. Try with another one.");
         }
@@ -87,5 +88,22 @@ trait CommandHelpersTrait
     {
         $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         return count($lines);
+    }
+
+    /**
+     * Find all columns containing identifiers in the number of lines specified.
+     *
+     * @param  League\Csv\Reader $csv
+     * @param  int $lines
+     * @return array
+     */
+    protected function findIdentifierColumns($csv, $lines = 25)
+    {
+        $rows = $csv->setOffset(1)->setLimit($lines)->fetchAll();
+        if (! $indexes = $this->parser->findAllIndexes($rows)) {
+            throw new \RuntimeException("No identifiers found in the source file.");
+        }
+
+        return $indexes;
     }
 }
