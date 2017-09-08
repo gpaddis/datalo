@@ -52,10 +52,7 @@ abstract class Command extends SymfonyCommand
         $delimiter = $input->getOption('delimiter');
         $status = $input->getOption('status');
 
-        // Check if the source file exists or is empty.
-        if (!file_exists($source) || $this->isEmpty($source)) {
-            throw new \RuntimeException("You are trying to open an invalid file. Try with another one.");
-        }
+        $this->validateFile($source);
 
         // Unless --force is set, check if destination file already exists.
         if (! $input->getOption('force')) {

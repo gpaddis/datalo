@@ -70,6 +70,8 @@ trait CommandHelpersTrait
      */
     public function autodetectDelimiter(string $filename)
     {
+        $this->validateFile($filename);
+        
         $content = file($filename);
 
         foreach ($this->delimiters as $delimiter) {
@@ -96,5 +98,17 @@ trait CommandHelpersTrait
         $count2 = substr_count($row2, $delimiter);
 
         return $count1 == $count2 && $count1 > 0;
+    }
+
+    /**
+     * Check if the file exist or has some content.
+     * 
+     * @param  string $filename
+     */
+    public function validateFile(string $filename)
+    {
+        if (!file_exists($filename) || $this->isEmpty($filename)) {
+            throw new \RuntimeException("You are trying to open an invalid file. Try with another one.");
+        }
     }
 }

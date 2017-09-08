@@ -24,4 +24,12 @@ class CommandHelpersTest extends TestCase
 
         $this->command->autodetectDelimiter('tests/data/journals.colondelimited.csv');
     }
+
+    /** @test */
+    public function autodetect_throws_an_exception_if_the_file_passed_is_empty()
+    {
+        $this->expectException('RuntimeException');
+        
+        $this->command->autodetectDelimiter('tests/data/empty.tsv');
+    }
 }
