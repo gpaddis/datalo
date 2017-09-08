@@ -20,6 +20,13 @@ abstract class Command extends SymfonyCommand
     protected $parser;
 
     /**
+     * The delimiters used for autodetection.
+     * 
+     * @var array
+     */
+    protected $delimiters = [",", "\t", ";"];
+
+    /**
      * Command constructor.
      *
      * @param Dataloader\Parsers\Parser $parser

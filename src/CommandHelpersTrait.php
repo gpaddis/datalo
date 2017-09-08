@@ -17,29 +17,6 @@ trait CommandHelpersTrait
     }
 
     /**
-     * Autodetect the delimiter in the csv file passed.
-     *
-     * @param  \League\Csv\Reader $csv
-     * @return string
-     */
-    // public function autodetectDelimiter(\League\Csv\Reader $csv) : string
-    // {
-    //     $delimiters = [",", "\t", ";"];
-
-    //     foreach ($delimiters as $delimiter) {
-    //         $csv->setDelimiter($delimiter);
-    //         $header = $csv->fetchOne(0);
-    //         $firstRow = $csv->fetchOne(1);
-
-    //         if ($this->matchNumberOfColumns($header, $firstRow)) {
-    //             return $delimiter;
-    //         }
-    //     }
-
-    //     throw new \RuntimeException("Unable to autodetect the correct delimiter. Either the file is corrupted or you can try with a custom delimiter (option --delimiter).");
-    // }
-
-    /**
      * Check whether the delimiter set in the Reader instance is wrong.
      *
      * @return void
@@ -108,8 +85,10 @@ trait CommandHelpersTrait
     }
 
     /**
-     * Count the occurrences of a delimiter in the first and second row of the
-     * file specified: if the count matches for a delimiter return the delimiter,
+     * Autodetect the delimiter of the file passed.
+     * 
+     * Count all occurrences of a delimiter in the first and second row of the file
+     * specified: if the count matches return the delimiter,
      * otherwise throw an exception.
      * 
      * @param  string $filename
@@ -120,10 +99,9 @@ trait CommandHelpersTrait
      */
     public function autodetectDelimiter(string $filename)
     {
-        $delimiters = [",", "\t", ";"];
         $content = file($filename);
 
-        foreach ($delimiters as $delimiter) {
+        foreach ($this->delimiters as $delimiter) {
             $count1 = substr_count($content[0], $delimiter);
             $count2 = substr_count($content[1], $delimiter);
 
