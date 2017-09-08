@@ -106,4 +106,32 @@ trait CommandHelpersTrait
 
         return $indexes;
     }
+
+    /**
+     * Count the occurrences of a delimiter in the first and second row of the
+     * file specified: if the count matches for a delimiter return the delimiter,
+     * otherwise throw an exception.
+     * 
+     * @param  string $filename
+     *
+     * @throws RuntimeException
+     * 
+     * @return string
+     */
+    public function matchDelimiterCount(string $filename)
+    {
+        $delimiters = [",", "\t", ";"];
+        $content = file($filename);
+
+        foreach ($delimiters as $delimiter) {
+            $count1 = substr_count($content[0], $delimiter);
+            $count2 = substr_count($content[1], $delimiter);
+
+            if ($count1 == $count2 && $count1 > 0) {
+                return $delimiter;
+            }
+        }
+
+        throw new \RuntimeException("Unable to autodetect the correct delimiter. Either the file is corrupted or you can try with a custom delimiter (option --delimiter).");
+    }
 }
