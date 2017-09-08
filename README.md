@@ -50,9 +50,13 @@ Use the command `datalo isbn` to process a list of ISBNs (passed as the first ar
 datalo isbn eBook_list.csv destination_file.txt
 ```
 The script will detect the delimiter, extract all valid ISBNs from your source file and save them in the destination file.
-If the file already exists, you will get a warning. You can overwrite an existing file simply setting the option `--force`:
+If the file already exists, you will get a warning. You can **overwrite an existing file** simply setting the option `--force`:
 ```
 datalo isbn eBook_list.csv destination_file.txt --force
+```
+You can also set an activation **status** (ACTIVE / INACTIVE) for each processed ISBN. Use the option `--status` followed by the desired status:
+```
+datalo isbn eBook_list.csv destination_file.txt --force --status INACTIVE
 ```
 ### Journal lists
 The command and options available are exactly the same as for the eBook lists, you only have to type `datalo issn` instead:
