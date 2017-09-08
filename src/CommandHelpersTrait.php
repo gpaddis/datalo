@@ -102,14 +102,28 @@ trait CommandHelpersTrait
         $content = file($filename);
 
         foreach ($this->delimiters as $delimiter) {
-            $count1 = substr_count($content[0], $delimiter);
-            $count2 = substr_count($content[1], $delimiter);
-
-            if ($count1 == $count2 && $count1 > 0) {
+            if ($this->matchDelimiterCount($content[0], $content[1], $delimiter)) {
                 return $delimiter;
             }
         }
 
         throw new \RuntimeException("Unable to autodetect the correct delimiter. Either the file is corrupted or you can try with a custom delimiter (option --delimiter).");
+    }
+
+    /**
+     * Match the number of occurrences of a delimiter across two rows.
+     * 
+     * @param  string $row1
+     * @param  string $row2
+     * @param  string $delimiter
+     * 
+     * @return boolean
+     */
+    public function matchDelimiterCount(string $row1, string $row2, string $delimiter) : bool
+    {
+        $count1 = substr_count($row1, $delimiter);
+        $count2 = substr_count($row2, $delimiter);
+
+        return $count1 == $count2 && $count1 > 0;
     }
 }
