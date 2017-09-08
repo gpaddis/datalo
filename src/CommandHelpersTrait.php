@@ -3,35 +3,6 @@
 trait CommandHelpersTrait
 {
     /**
-     * Check if the number of columns in the header corresponds to the number of
-     * columns in the first row, and if the header contains more than one column.
-     *
-     * @param  League\Csv\Reader $csv
-     * @return boolean
-     */
-    public function matchNumberOfColumns(array $header, array $firstRow) : bool
-    {
-        $headerColumns = count($header);
-        $firstRowColumns = count($firstRow);
-        return ($headerColumns == $firstRowColumns) && $headerColumns > 1;
-    }
-
-    /**
-     * Check whether the delimiter set in the Reader instance is wrong.
-     *
-     * @return void
-     */
-    protected function checkForBadDelimiter(\League\Csv\Reader $csv)
-    {
-        $header = $csv->fetchOne(0);
-        $firstRow = $csv->fetchOne(1);
-
-        if (! $this->matchNumberOfColumns($header, $firstRow)) {
-            throw new \RuntimeException("You didn't choose the appropriate delimiter for the file. Try with another one.");
-        }
-    }
-
-    /**
      * Return true if the file is empty.
      *
      * @param  string  $file
