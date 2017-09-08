@@ -35,7 +35,7 @@ Datalo requires **PHP 7**.
 You will also need [composer](https://getcomposer.org/) to install the script.
 
 ## Installation
-(***Not working yet. Will be available with the first release.***)
+(*Not working yet. Will be available with the first release.*)
 Install **datalo** globally on your system with composer:
 ```
 $ composer global require gpaddis/datalo
@@ -66,3 +66,5 @@ The command and options available are exactly the same as for the eBook lists, y
 ```
 datalo issn journals_list.csv destination_file.txt
 ```
+
+Copyright (c) 2017 Gianpiero Addis - MIT License
