@@ -35,17 +35,16 @@ Datalo requires **PHP 7**.
 You will also need [composer](https://getcomposer.org/) to install the script.
 
 ## Installation
-
+(***Not working yet. Will be available with the first release.***)
 Install **datalo** globally on your system with composer:
 ```
 $ composer global require gpaddis/datalo
 ```
 After the installation, you will be able to execute the command in any directory.
 
-
 ## Usage
 ### eBook lists
-Use the command `datalo isbn` to process a list of ISBNs (passed as the first argument, in our case: `eBook_list.csv`). The second argument is the destination file you want to generate: `destination_file.txt`.
+Use the command `datalo isbn` to process a **list of ISBNs** (passed as the first argument, in our case: `eBook_list.csv`). The second argument is the **destination file** you want to generate: `destination_file.txt`.
 ```
 datalo isbn eBook_list.csv destination_file.txt
 ```
@@ -57,6 +56,10 @@ datalo isbn eBook_list.csv destination_file.txt --force
 You can also set an activation **status** (ACTIVE / INACTIVE) for each processed ISBN. Use the option `--status` followed by the desired status:
 ```
 datalo isbn eBook_list.csv destination_file.txt --force --status INACTIVE
+```
+If the delimiter-autodetection does not work, maybe the file has an unusual delimiter (say... pipe: `|`). In this case, you can use the option `--delimiter`to set a custom delimiter:
+```
+datalo isbn eBook_list.csv destination_file.txt --force --status INACTIVE --delimiter |
 ```
 ### Journal lists
 The command and options available are exactly the same as for the eBook lists, you only have to type `datalo issn` instead:
