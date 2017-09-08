@@ -53,7 +53,7 @@ If the file already exists, you will get a warning. You can **overwrite an exist
 ```
 $ datalo isbn eBook_list.csv destination_file.txt --force
 ```
-You can also set an activation **status** (ACTIVE / INACTIVE) for each processed ISBN. Use the option `--status` followed by the desired status:
+If you don't specify an **activation status**, all identifiers are flagged as ACTIVE by default. You can also set a custom status (ACTIVE / INACTIVE) using the option `--status` followed by the desired status:
 ```
 $ datalo isbn eBook_list.csv destination_file.txt --force --status INACTIVE
 ```
