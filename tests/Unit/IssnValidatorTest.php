@@ -56,9 +56,16 @@ class IssnValidatorTest extends TestCase
     /**
      * This happens if we strip all dashes from a date string whose last digit, by coincidence,
      * corresponds to the check digit of a valid ISSN. It returns a false positive when
-     * checking which columns contain identifiers (IssnParser@analyzeRow).
+     * IssnParser::analyzeRow() checks which columns contain identifiers.
      */
     {
         $this->assertFalse($this->validator->validate('1984-01-01'));
+    }
+
+    /** @test */
+    public function an_ISSN_within_a_number_string_does_not_pass_validation()
+    {
+        $this->assertFalse($this->validator->validate('00123232-0017-8012-987982-23213'));
+        $this->assertFalse($this->validator->validate('001232320017801298798223213'));
     }
 }
