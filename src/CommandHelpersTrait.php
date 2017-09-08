@@ -22,22 +22,22 @@ trait CommandHelpersTrait
      * @param  \League\Csv\Reader $csv
      * @return string
      */
-    public function autodetectDelimiter(\League\Csv\Reader $csv) : string
-    {
-        $delimiters = [",", "\t", ";"];
+    // public function autodetectDelimiter(\League\Csv\Reader $csv) : string
+    // {
+    //     $delimiters = [",", "\t", ";"];
 
-        foreach ($delimiters as $delimiter) {
-            $csv->setDelimiter($delimiter);
-            $header = $csv->fetchOne(0);
-            $firstRow = $csv->fetchOne(1);
+    //     foreach ($delimiters as $delimiter) {
+    //         $csv->setDelimiter($delimiter);
+    //         $header = $csv->fetchOne(0);
+    //         $firstRow = $csv->fetchOne(1);
 
-            if ($this->matchNumberOfColumns($header, $firstRow)) {
-                return $delimiter;
-            }
-        }
+    //         if ($this->matchNumberOfColumns($header, $firstRow)) {
+    //             return $delimiter;
+    //         }
+    //     }
 
-        throw new \RuntimeException("Unable to autodetect the correct delimiter. Either the file is corrupted or you can try with a custom delimiter (option --delimiter).");
-    }
+    //     throw new \RuntimeException("Unable to autodetect the correct delimiter. Either the file is corrupted or you can try with a custom delimiter (option --delimiter).");
+    // }
 
     /**
      * Check whether the delimiter set in the Reader instance is wrong.
@@ -118,7 +118,7 @@ trait CommandHelpersTrait
      * 
      * @return string
      */
-    public function matchDelimiterCount(string $filename)
+    public function autodetectDelimiter(string $filename)
     {
         $delimiters = [",", "\t", ";"];
         $content = file($filename);

@@ -58,7 +58,7 @@ abstract class Command extends SymfonyCommand
         $csv = Reader::createFromPath($source);
 
         // Autodetect the delimiter for the file if none is specified.
-        $delimiter = $delimiter ?? $this->autodetectDelimiter($csv);
+        $delimiter = $delimiter ?? $this->autodetectDelimiter($source);
         $csv->setDelimiter($delimiter);
 
         // Check if the parser finds columns containing identifiers.

@@ -35,17 +35,10 @@ class CommandHelpersTest extends TestCase
     }
 
     /** @test */
-    public function it_autodetects_the_correct_delimiter()
-    {
-        $csv = \League\Csv\Reader::createFromPath('tests/data/ebooks.tsv');
-        $this->assertEquals("\t", $this->command->autodetectDelimiter($csv));
-    }
-
-    /** @test */
     public function autodetect_returns_the_correct_delimiter()
     {
-        $this->assertEquals("\t", $this->command->matchDelimiterCount('tests/data/ebooks.tsv'));
-        $this->assertEquals(";", $this->command->matchDelimiterCount('tests/data/journals2.csv'));
+        $this->assertEquals("\t", $this->command->autodetectDelimiter('tests/data/ebooks.tsv'));
+        $this->assertEquals(";", $this->command->autodetectDelimiter('tests/data/journals2.csv'));
     }
 
     /** @test */
@@ -53,6 +46,6 @@ class CommandHelpersTest extends TestCase
     {
         $this->expectException('RuntimeException');
 
-        $this->command->matchDelimiterCount('tests/data/journals.colondelimited.csv');
+        $this->command->autodetectDelimiter('tests/data/journals.colondelimited.csv');
     }
 }
