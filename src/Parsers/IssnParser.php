@@ -1,4 +1,6 @@
-<?php namespace Dataloader\Parsers;
+<?php
+
+namespace Dataloader\Parsers;
 
 use Dataloader\Splitters\Splitter;
 use Dataloader\Validators\IssnValidator;
@@ -10,7 +12,7 @@ class IssnParser extends Parser
      */
     public function __construct()
     {
-        $this->validator = new IssnValidator;
-        $this->splitter = new Splitter;
+        $this->validator = new IssnValidator();
+        $this->splitter = new Splitter();
     }
 }

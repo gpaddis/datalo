@@ -1,8 +1,8 @@
 <?php
 
+use Dataloader\IsbnCommand;
 use League\Csv\Reader;
 use PHPUnit\Framework\TestCase;
-use Dataloader\IsbnCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -26,12 +26,12 @@ class IsbnCommandTest extends TestCase
     /** @test */
     public function it_converts_a_tsv_ebook_list()
     {
-        $this->commandTester->execute(array(
-            'command'  => $this->command->getName(),
-            'source' => 'tests/data/ebooks.tsv',
+        $this->commandTester->execute([
+            'command'     => $this->command->getName(),
+            'source'      => 'tests/data/ebooks.tsv',
             'destination' => 'tests/data/output.txt',
-            '--force' => true
-            ));
+            '--force'     => true,
+            ]);
 
         // the output of the command in the console
         $output = $this->commandTester->getDisplay();
@@ -44,11 +44,11 @@ class IsbnCommandTest extends TestCase
     {
         $this->expectException('RuntimeException');
 
-        $this->commandTester->execute(array(
-            'command'  => $this->command->getName(),
-            'source' => 'tests/data/empty.tsv',
+        $this->commandTester->execute([
+            'command'     => $this->command->getName(),
+            'source'      => 'tests/data/empty.tsv',
             'destination' => 'tests/data/output.txt',
-            ));
+            ]);
     }
 
     /** @test */
@@ -56,11 +56,11 @@ class IsbnCommandTest extends TestCase
     {
         $this->expectException('RuntimeException');
 
-        $this->commandTester->execute(array(
-            'command'  => $this->command->getName(),
-            'source' => 'tests/data/nonexisting.tsv',
+        $this->commandTester->execute([
+            'command'     => $this->command->getName(),
+            'source'      => 'tests/data/nonexisting.tsv',
             'destination' => 'tests/data/output.txt',
-            ));
+            ]);
     }
 
     /** @test */
@@ -68,23 +68,23 @@ class IsbnCommandTest extends TestCase
     {
         $this->expectException('RuntimeException');
 
-        $this->commandTester->execute(array(
-            'command'  => $this->command->getName(),
-            'source' => 'tests/data/ebooks.tsv',
+        $this->commandTester->execute([
+            'command'     => $this->command->getName(),
+            'source'      => 'tests/data/ebooks.tsv',
             'destination' => 'tests/data/ebooks.tsv',
-            ));
+            ]);
     }
 
     /** @test */
     public function it_can_set_a_custom_status_flag_in_the_second_column()
     {
-        $this->commandTester->execute(array(
-            'command'  => $this->command->getName(),
-            'source' => 'tests/data/ebooks.tsv',
+        $this->commandTester->execute([
+            'command'     => $this->command->getName(),
+            'source'      => 'tests/data/ebooks.tsv',
             'destination' => 'tests/data/output.txt',
-            '--force' => true,
-            '--status' => 'INACTIVE'
-            ));
+            '--force'     => true,
+            '--status'    => 'INACTIVE',
+            ]);
 
         // the output of the command in the console
         $output = $this->commandTester->getDisplay();

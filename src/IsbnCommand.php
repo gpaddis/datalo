@@ -1,8 +1,10 @@
-<?php namespace Dataloader;
+<?php
+
+namespace Dataloader;
 
 use Dataloader\Parsers\IsbnParser;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class IsbnCommand extends Command
 {
@@ -11,7 +13,7 @@ class IsbnCommand extends Command
      */
     public function __construct()
     {
-        parent::__construct(new IsbnParser);
+        parent::__construct(new IsbnParser());
     }
 
     /**

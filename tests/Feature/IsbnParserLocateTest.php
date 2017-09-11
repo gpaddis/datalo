@@ -1,8 +1,8 @@
 <?php
 
+use Dataloader\Parsers\IsbnParser;
 use League\Csv\Reader;
 use PHPUnit\Framework\TestCase;
-use Dataloader\Parsers\IsbnParser;
 
 class IsbnParserLocateTest extends TestCase
 {

@@ -1,8 +1,8 @@
 <?php
 
+use Dataloader\Parsers\IssnParser;
 use League\Csv\Reader;
 use PHPUnit\Framework\TestCase;
-use Dataloader\Parsers\IssnParser;
 
 class IssnParserGetTest extends TestCase
 {
@@ -21,12 +21,12 @@ class IssnParserGetTest extends TestCase
     {
         $issnsInRowEleven = [
             '1435246X',
-            '16139178'
+            '16139178',
         ];
 
         $issnsInRowThirteen = [
             '09277099',
-            '15729974'
+            '15729974',
         ];
 
         $issnsFoundInRowEleven = $this->parser->collectIdentifiers($this->csv->fetchOne(11), $this->columns);

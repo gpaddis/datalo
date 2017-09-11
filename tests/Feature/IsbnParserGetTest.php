@@ -1,8 +1,8 @@
 <?php
 
+use Dataloader\Parsers\IsbnParser;
 use League\Csv\Reader;
 use PHPUnit\Framework\TestCase;
-use Dataloader\Parsers\IsbnParser;
 
 class IsbnParserGetTest extends TestCase
 {
@@ -22,7 +22,7 @@ class IsbnParserGetTest extends TestCase
         $isbnsInRowTwo = [
             '9781905050352',
             '9781280480560',
-            '9781905050840'
+            '9781905050840',
         ];
 
         $isbnsInRowFour = [
@@ -30,7 +30,7 @@ class IsbnParserGetTest extends TestCase
             '9780198774501',
             '9780191525063',
             '9780191596476',
-            '9781282052536'
+            '9781282052536',
         ];
 
         $isbnsFoundInRowTwo = $this->parser->collectIdentifiers($this->csv->fetchOne(2), $this->columns);

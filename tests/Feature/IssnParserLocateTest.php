@@ -1,8 +1,8 @@
 <?php
 
+use Dataloader\Parsers\IssnParser;
 use League\Csv\Reader;
 use PHPUnit\Framework\TestCase;
-use Dataloader\Parsers\IssnParser;
 
 class IssnParserLocateTest extends TestCase
 {
