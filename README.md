@@ -44,12 +44,12 @@ After the installation, you will be able to execute the command in any directory
 
 ## Usage
 ### eBook lists
-Use the command `datalo isbn` to process a **list of ISBNs** (passed as the first argument, in our case: `eBook_list.csv`). The second argument is the **destination file** you want to generate: `destination_file.txt`.
+Use the command `datalo isbn` to process a **list of eBooks** (passed as the first argument, in our case: `eBook_list.csv`). The second argument is the **destination file** you want to generate: `destination_file.txt`.
 ```
 $ datalo isbn eBook_list.csv destination_file.txt
 ```
 The script will detect the delimiter, extract all valid ISBNs from your source file and save them in the destination file.
-If the file already exists, you will get a warning. You can **overwrite an existing file** simply setting the option `--force`:
+If the file already exists, you will get a warning. You can **overwrite an existing file** by setting the option `--force`:
 ```
 $ datalo isbn eBook_list.csv destination_file.txt --force
 ```
@@ -61,6 +61,7 @@ If the delimiter-autodetection does not work, maybe the file has an unusual deli
 ```
 $ datalo isbn eBook_list.csv destination_file.txt --force --status INACTIVE --delimiter |
 ```
+In this case, you will have to make sure that you are using the correct delimiter.
 ### Journal lists
 The command and options available are exactly the same as for the eBook lists, you only have to type `datalo issn` instead:
 ```
