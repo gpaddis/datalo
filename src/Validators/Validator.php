@@ -1,4 +1,6 @@
-<?php namespace Dataloader\Validators;
+<?php
+
+namespace Dataloader\Validators;
 
 /**
  * Abstract validator class. $this->validate() returns true if the identifier
@@ -15,13 +17,14 @@ abstract class Validator
      */
     public static function make() : Validator
     {
-        return new static;
+        return new static();
     }
 
     /**
      * Stripe out dashes and whitespaces.
      *
-     * @param  string $identifier
+     * @param string $identifier
+     *
      * @return string
      */
     public function clean(string $identifier) : string

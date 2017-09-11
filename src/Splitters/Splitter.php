@@ -1,4 +1,6 @@
-<?php namespace Dataloader\Splitters;
+<?php
+
+namespace Dataloader\Splitters;
 
 class Splitter
 {
@@ -6,7 +8,8 @@ class Splitter
      * Split a string field containing one or multiple ISBNs or ISSNs
      * separated by non-numeric, non-X & non-dash characters.
      *
-     * @param  string $field
+     * @param string $field
+     *
      * @return array
      */
     public function split(string $field = '') : array

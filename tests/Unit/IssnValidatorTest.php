@@ -1,7 +1,7 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
 use Dataloader\Validators\IssnValidator;
+use PHPUnit\Framework\TestCase;
 
 class IssnValidatorTest extends TestCase
 {
@@ -53,7 +53,7 @@ class IssnValidatorTest extends TestCase
 
     /** @test */
     public function a_date_does_not_pass_validation()
-    /**
+    /*
      * This happens if we strip all dashes from a date string whose last digit, by coincidence,
      * corresponds to the check digit of a valid ISSN. It returns a false positive when
      * IssnParser::analyzeRow() checks which columns contain identifiers.

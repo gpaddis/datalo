@@ -1,7 +1,7 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
 use Dataloader\Validators\IsbnValidator;
+use PHPUnit\Framework\TestCase;
 
 class IsbnValidatorTest extends TestCase
 {

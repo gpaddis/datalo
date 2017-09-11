@@ -1,7 +1,7 @@
 <?php
 
-use League\Csv\Reader;
 use Dataloader\IssnCommand;
+use League\Csv\Reader;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -26,12 +26,12 @@ class IssnCommandTest extends TestCase
     /** @test */
     public function it_converts_a_tsv_journals_list()
     {
-        $this->commandTester->execute(array(
-            'command'  => $this->command->getName(),
-            'source' => 'tests/data/journals.csv',
+        $this->commandTester->execute([
+            'command'     => $this->command->getName(),
+            'source'      => 'tests/data/journals.csv',
             'destination' => 'tests/data/output_journals.txt',
-            '--force' => true
-            ));
+            '--force'     => true,
+            ]);
 
         // the output of the command in the console
         $output = $this->commandTester->getDisplay();
@@ -44,11 +44,11 @@ class IssnCommandTest extends TestCase
     {
         $this->expectException('RuntimeException');
 
-        $this->commandTester->execute(array(
-            'command'  => $this->command->getName(),
-            'source' => 'tests/data/empty.tsv',
+        $this->commandTester->execute([
+            'command'     => $this->command->getName(),
+            'source'      => 'tests/data/empty.tsv',
             'destination' => 'tests/data/output_journals.txt',
-            ));
+            ]);
     }
 
     /** @test */
@@ -56,23 +56,23 @@ class IssnCommandTest extends TestCase
     {
         $this->expectException('RuntimeException');
 
-        $this->commandTester->execute(array(
-            'command'  => $this->command->getName(),
-            'source' => 'tests/data/journals.colondelimited.csv',
+        $this->commandTester->execute([
+            'command'     => $this->command->getName(),
+            'source'      => 'tests/data/journals.colondelimited.csv',
             'destination' => 'tests/data/output_journals.txt',
-            ));
+            ]);
     }
 
     /** @test */
     public function it_accepts_a_custom_delimiter()
     {
-        $this->commandTester->execute(array(
-            'command'  => $this->command->getName(),
-            'source' => 'tests/data/journals.colondelimited.csv',
+        $this->commandTester->execute([
+            'command'     => $this->command->getName(),
+            'source'      => 'tests/data/journals.colondelimited.csv',
             'destination' => 'tests/data/output_journals.txt',
             '--delimiter' => ':',
-            '--force' => true
-            ));
+            '--force'     => true,
+            ]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertContains('processed succesfully', $output);
@@ -84,11 +84,11 @@ class IssnCommandTest extends TestCase
     {
         $this->expectException('RuntimeException');
 
-        $this->commandTester->execute(array(
-            'command'  => $this->command->getName(),
-            'source' => 'tests/data/nonexisting.tsv',
+        $this->commandTester->execute([
+            'command'     => $this->command->getName(),
+            'source'      => 'tests/data/nonexisting.tsv',
             'destination' => 'tests/data/output_journals.txt',
-            ));
+            ]);
     }
 
     /** @test */
@@ -96,23 +96,23 @@ class IssnCommandTest extends TestCase
     {
         $this->expectException('RuntimeException');
 
-        $this->commandTester->execute(array(
-            'command'  => $this->command->getName(),
-            'source' => 'tests/data/journals.csv',
+        $this->commandTester->execute([
+            'command'     => $this->command->getName(),
+            'source'      => 'tests/data/journals.csv',
             'destination' => 'tests/data/journals.csv',
-            ));
+            ]);
     }
 
     /** @test */
     public function it_can_set_a_custom_status_flag_in_the_second_column()
     {
-        $this->commandTester->execute(array(
-            'command'  => $this->command->getName(),
-            'source' => 'tests/data/journals.csv',
+        $this->commandTester->execute([
+            'command'     => $this->command->getName(),
+            'source'      => 'tests/data/journals.csv',
             'destination' => 'tests/data/output_journals.txt',
-            '--force' => true,
-            '--status' => 'INACTIVE'
-            ));
+            '--force'     => true,
+            '--status'    => 'INACTIVE',
+            ]);
 
         // the output of the command in the console
         $output = $this->commandTester->getDisplay();

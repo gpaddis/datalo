@@ -1,14 +1,15 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
 use Dataloader\Splitters\Splitter;
+use PHPUnit\Framework\TestCase;
 
 class IssnSplitterTest extends TestCase
 {
     public function setUp()
     {
-        $this->splitter = new Splitter;
+        $this->splitter = new Splitter();
     }
+
     /** @test */
     public function it_splits_a_field_containing_multiple_isbns_to_an_array()
     {
@@ -19,7 +20,7 @@ class IssnSplitterTest extends TestCase
         $this->assertEquals([
             '0017-8012',
             '0098-9258',
-            '0717-344X'
+            '0717-344X',
         ], $parsedIssns);
     }
 
@@ -32,7 +33,7 @@ class IssnSplitterTest extends TestCase
 
         $this->assertEquals([
             '0017-8012',
-            '0717-344X'
+            '0717-344X',
         ], $parsedIsbns);
     }
 

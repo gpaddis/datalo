@@ -1,8 +1,10 @@
-<?php namespace Dataloader;
+<?php
+
+namespace Dataloader;
 
 use Dataloader\Parsers\IssnParser;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class IssnCommand extends Command
 {
@@ -11,7 +13,7 @@ class IssnCommand extends Command
      */
     public function __construct()
     {
-        parent::__construct(new IssnParser);
+        parent::__construct(new IssnParser());
     }
 
     /**

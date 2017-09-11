@@ -1,12 +1,15 @@
-<?php namespace Dataloader\Validators;
+<?php
+
+namespace Dataloader\Validators;
 
 class IsbnValidator extends Validator
 {
     /**
      * Check if an ISBN is valid.
      *
-     * @param  string $isbn
-     * @return boolean
+     * @param string $isbn
+     *
+     * @return bool
      */
     public function validate(string $isbn) : bool
     {
@@ -16,7 +19,8 @@ class IsbnValidator extends Validator
     /**
      * Check if the ISBN 13 or 10 scheme is correct, otherwise return false.
      *
-     * @param  string $isbn
+     * @param string $isbn
+     *
      * @return mixed
      */
     public function verifyScheme($isbn)
@@ -37,8 +41,9 @@ class IsbnValidator extends Validator
     /**
      * Verify the check digit.
      *
-     * @param  string   $isbn
-     * @return boolean
+     * @param string $isbn
+     *
+     * @return bool
      */
     public function checkDigit($isbn) : bool
     {

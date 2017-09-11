@@ -1,9 +1,11 @@
-<?php namespace Dataloader\Parsers;
+<?php
+
+namespace Dataloader\Parsers;
 
 abstract class Parser
 {
     /**
-     * @var Dataloader\Splitters\Splitter $splitter
+     * @var Dataloader\Splitters\Splitter
      * @var Dataloader\Validators\Validator $validator
      */
     protected $splitter;
@@ -16,13 +18,14 @@ abstract class Parser
      */
     public static function make() : Parser
     {
-        return new static;
+        return new static();
     }
 
     /**
      * Analyze a row and return the column index(es) containing identifiers.
      *
-     * @param  array $row
+     * @param array $row
+     *
      * @return array
      */
     public function analyzeRow(array $row = []) : array
@@ -41,8 +44,9 @@ abstract class Parser
     /**
      * Check if a field contains identifiers.
      *
-     * @param  string  $field
-     * @return boolean
+     * @param string $field
+     *
+     * @return bool
      */
     protected function containsIdentifiers(string $field) : bool
     {
@@ -60,7 +64,8 @@ abstract class Parser
     /**
      * Collect all column index(es) containing identifiers in the given rows.
      *
-     * @param  array $rows
+     * @param array $rows
+     *
      * @return array
      */
     public function findAllIndexes(array $rows = []) : array
@@ -79,8 +84,9 @@ abstract class Parser
     /**
      * Extract all valid identifiers contained in a single field.
      *
-     * @param  array   $row
-     * @param  integer $column
+     * @param array $row
+     * @param int   $column
+     *
      * @return array
      */
     public function extractIdentifiersFromField(array $row, int $column) : array
@@ -102,8 +108,9 @@ abstract class Parser
      * Collect all unique identifiers from a single row checking only in the columns specified
      * and return them in a sorted array.
      *
-     * @param  array $row      The row to analyze.
-     * @param  array $columns  The columns where it should look for identifiers.
+     * @param array $row     The row to analyze.
+     * @param array $columns The columns where it should look for identifiers.
+     *
      * @return array
      */
     public function collectIdentifiers(array $row = [], array $columns = []) : array
@@ -117,15 +124,17 @@ abstract class Parser
                 $result = array_merge($identifiers, $result);
             }
         }
+
         return array_unique($result);
     }
 
     /**
      * Check whether a column exists in the row passed.
      *
-     * @param  int $column
-     * @param  array $row
-     * @return boolean
+     * @param int   $column
+     * @param array $row
+     *
+     * @return bool
      */
     protected function exists(int $column, array $row) : bool
     {
@@ -135,7 +144,8 @@ abstract class Parser
     /**
      * Use the split() function of the splitter passed in the constructor.
      *
-     * @param  string $field
+     * @param string $field
+     *
      * @return array
      */
     protected function split(string $field) : array
@@ -146,8 +156,9 @@ abstract class Parser
     /**
      * Use the validate() function of the validator passed in the constructor.
      *
-     * @param  string $identifier
-     * @return boolean
+     * @param string $identifier
+     *
+     * @return bool
      */
     protected function validate(string $identifier) : bool
     {
@@ -157,7 +168,8 @@ abstract class Parser
     /**
      * Use the clean() function of the validator passed in the constructor.
      *
-     * @param  string $identifier
+     * @param string $identifier
+     *
      * @return string
      */
     protected function clean(string $identifier) : string
@@ -168,7 +180,8 @@ abstract class Parser
     /**
      * Sort an array, remove duplicate values and remap its keys.
      *
-     * @param  array $array
+     * @param array $array
+     *
      * @return array
      */
     public static function deduplicateArray(array $array) : array

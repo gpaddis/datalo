@@ -1,4 +1,6 @@
-<?php namespace Dataloader\Validators;
+<?php
+
+namespace Dataloader\Validators;
 
 class IssnValidator extends Validator
 {
@@ -7,15 +9,16 @@ class IssnValidator extends Validator
      * If the string without dashes is shorter or longer than 8 characters,
      * don't even trigger the check digit test and just return false.
      *
-     * @param  string $issn
-     * @return boolean
+     * @param string $issn
+     *
+     * @return bool
      */
     public function validate(string $issn) : bool
     {
-        if (! $this->checkStructure($issn)) {
+        if (!$this->checkStructure($issn)) {
             return false;
         }
-        if (! $this->checkLength($issn)) {
+        if (!$this->checkLength($issn)) {
             return false;
         }
 
@@ -24,9 +27,10 @@ class IssnValidator extends Validator
 
     /**
      * Calculate the ISSN check digit.
-     * Procedure: https://www.loc.gov/issn/check.html
+     * Procedure: https://www.loc.gov/issn/check.html.
      *
-     * @param  string $issn
+     * @param string $issn
+     *
      * @return string
      */
     public function checkDigit(string $issn) : string
@@ -46,13 +50,15 @@ class IssnValidator extends Validator
         if ($checkDigit == 10) {
             return 'X';
         }
+
         return $checkDigit;
     }
 
     /**
      * Return the last digit of an ISSN.
      *
-     * @param  string $issn
+     * @param string $issn
+     *
      * @return string
      */
     public function lastDigit(string $issn) : string
@@ -63,8 +69,9 @@ class IssnValidator extends Validator
     /**
      * Check if an ISSN is well formed.
      *
-     * @param  string $issn
-     * @return boolean
+     * @param string $issn
+     *
+     * @return bool
      */
     public function checkStructure(string $issn) : bool
     {
@@ -73,8 +80,10 @@ class IssnValidator extends Validator
 
     /**
      * Check if the length of an ISSN is 8 digits without dashes.
-     * @param  string $issn
-     * @return boolean
+     *
+     * @param string $issn
+     *
+     * @return bool
      */
     public function checkLength($issn)
     {

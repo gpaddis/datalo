@@ -1,12 +1,14 @@
-<?php namespace Dataloader;
+<?php
 
+namespace Dataloader;
+
+use Dataloader\Parsers\Parser;
 use League\Csv\Reader;
 use League\Csv\Writer;
-use Dataloader\Parsers\Parser;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 abstract class Command extends SymfonyCommand
 {
@@ -21,10 +23,10 @@ abstract class Command extends SymfonyCommand
 
     /**
      * The delimiters used for autodetection.
-     * 
+     *
      * @var array
      */
-    protected $delimiters = [",", "\t", ";"];
+    protected $delimiters = [',', "\t", ';'];
 
     /**
      * Command constructor.
@@ -40,9 +42,9 @@ abstract class Command extends SymfonyCommand
     /**
      * Execute the command.
      *
-     * @param  Symfony\Component\Console\Input\InputInterface  $input
-     * @param  Symfony\Component\Console\Output\OutputInterface $output
-     * 
+     * @param Symfony\Component\Console\Input\InputInterface   $input
+     * @param Symfony\Component\Console\Output\OutputInterface $output
+     *
      * @return void
      */
     public function execute(InputInterface $input, OutputInterface $output)
@@ -55,7 +57,7 @@ abstract class Command extends SymfonyCommand
         $this->validateFile($source);
 
         // Unless --force is set, check if destination file already exists.
-        if (! $input->getOption('force')) {
+        if (!$input->getOption('force')) {
             $this->verifyDestinationDoesntExist($destination);
         }
 
@@ -95,7 +97,7 @@ abstract class Command extends SymfonyCommand
         ->insertAll($content);
 
         $progress->finish();
-        $output->writeln("");
+        $output->writeln('');
         $output->writeln("{$rowsCount} rows processed succesfully, {$identifiersCount} unique identifiers found.");
 
         // Confirm the result of the operation.
