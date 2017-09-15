@@ -53,9 +53,9 @@ If the file already exists, you will get a warning. You can **overwrite an exist
 ```
 $ datalo isbn eBook_list.csv destination_file.txt --force
 ```
-If you don't specify an **activation status**, all identifiers are flagged as ACTIVE by default in the second column. You can set a custom status (ACTIVE / INACTIVE) or any string (it will be saved in the second column) using the option `--status` followed by a word:
+If you don't specify an **activation status**, all identifiers are flagged as ACTIVE by default in the second column. You can set a custom status (ACTIVE / INACTIVE) or any string using the option `--status` followed by a word or a sentence enclosed in *"quotation marks"*:
 ```
-$ datalo isbn eBook_list.csv destination_file.txt --force --status INACTIVE
+$ datalo isbn eBook_list.csv destination_file.txt --force --status "eBook list updated on 12.01.2017"
 ```
 To save only the list of identifiers, set the `--status` explicitly to `NONE`.
 
