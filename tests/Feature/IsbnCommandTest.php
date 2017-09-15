@@ -83,7 +83,7 @@ class IsbnCommandTest extends TestCase
             'source'      => 'tests/data/ebooks.tsv',
             'destination' => 'tests/data/output.txt',
             '--force'     => true,
-            '--status'    => 'INACTIVE',
+            '--status'    => 'Any String',
             ]);
 
         // the output of the command in the console
@@ -91,7 +91,8 @@ class IsbnCommandTest extends TestCase
         $this->assertContains('processed succesfully', $output);
 
         $anyLine = $this->csvDestination->fetchOne(rand(1, 20));
-        $this->assertContains('INACTIVE', $anyLine);
+        $this->assertContains('Any String', $anyLine);
+        $this->assertCount(2, $anyLine);
     }
 
     /** @test */

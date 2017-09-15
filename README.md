@@ -53,10 +53,12 @@ If the file already exists, you will get a warning. You can **overwrite an exist
 ```
 $ datalo isbn eBook_list.csv destination_file.txt --force
 ```
-If you don't specify an **activation status**, all identifiers are flagged as ACTIVE by default. You can also set a custom status (ACTIVE / INACTIVE) using the option `--status` followed by the desired status:
+If you don't specify an **activation status**, all identifiers are flagged as ACTIVE by default in the second column. You can set a custom status (ACTIVE / INACTIVE) or any string (it will be saved in the second column) using the option `--status` followed by a word:
 ```
 $ datalo isbn eBook_list.csv destination_file.txt --force --status INACTIVE
 ```
+To save only the list of identifiers, set the `--status` explicitly to `NONE`.
+
 If the delimiter-autodetection does not work, maybe the file has an unusual delimiter (say... pipe: `|`). In this case, you can use the option `--delimiter`to set a custom delimiter:
 ```
 $ datalo isbn eBook_list.csv destination_file.txt --force --status INACTIVE --delimiter |
