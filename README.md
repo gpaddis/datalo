@@ -1,7 +1,7 @@
 # Datalo: List Converter for the SFX Dataloader
 [![Build Status](https://travis-ci.org/gpaddis/datalo.svg?branch=master)](https://travis-ci.org/gpaddis/datalo)
 
-**Warning: this software is in development and is not fully functional yet.** Watch the repository to be informed when the first version will be released.
+**Warning: this software is in development and might change significantly before v1.0 is released.**
 
 ## A tool for librarians working with ExLibris' SFX
 When mass updating SFX target portfolios via the *dataloader*, we need a clean, tab separated list of ISBNs or ISSNs.
@@ -34,12 +34,12 @@ KBID,Title,PrintISBN,OnlineISBN,DOI
 Datalo requires **PHP 7**.
 You will also need to have [composer](https://getcomposer.org/) installed in your system in order to install the script.
 
-<!-- ## Installation
-Install **datalo** globally on your system with composer. Open your terminal and digit:
+## Installation
+Install **datalo** globally on your system with **composer**. Open your terminal and digit:
 ```
 $ composer global require gpaddis/datalo
 ```
-After the installation, you will be able to execute the command in any directory. -->
+After the installation, datalo will be available in any directory.
 
 ## Usage
 Use the command `datalo isbn` to process a **list of eBooks** (passed as the first argument, in our case: `eBook_list.csv`) and `datalo issn` for a **list of journals**. The second argument is the **destination file** you want to generate: `destination_file.txt`.
@@ -52,18 +52,18 @@ If the file already exists, you will get a warning. You can **overwrite an exist
 $ datalo isbn eBook_list.csv destination_file.txt --force
 ```
 ### Status
-If you don't specify an **activation status**, all identifiers are flagged as ACTIVE by default in the second column. You can set a custom status (ACTIVE / INACTIVE) or any string using the option `--status` followed by a word or a sentence enclosed in *"quotation marks"*:
+If you don't specify an **activation status**, all identifiers are flagged as ACTIVE by default in the second column. You can set a custom status (ACTIVE / INACTIVE) or add any string using the option `--status` followed by a word or a sentence enclosed in *"quotation marks"*:
 ```
 $ datalo isbn eBook_list.csv destination_file.txt --force --status "eBook list updated on 12.01.2017"
 ```
 To save only the list of identifiers, set the `--status` explicitly to `NONE`.
 
 ### Delimiter
-If the delimiter-autodetection does not work, maybe the file has an unusual delimiter (say... pipe: `|`). In this case, you can use the option `--delimiter`to set a custom delimiter:
+If the delimiter-autodetection does not work, maybe the file has an unusual delimiter (say... pipe: `|`). In this case, you can use the option `--delimiter` to set a custom delimiter:
 ```
 $ datalo isbn eBook_list.csv destination_file.txt --force --status INACTIVE --delimiter |
 ```
-In this case, you will have to make sure that you are actually using the correct delimiter to avoid unexpected or partial results.
+You will have to make sure that you are actually using the correct delimiter to avoid unexpected or partial results.
 
-## Credits
+### Credits
 Copyright (c) 2017 Gianpiero Addis - MIT License
