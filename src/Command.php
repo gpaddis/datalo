@@ -84,7 +84,14 @@ abstract class Command extends SymfonyCommand
         foreach ($csv as $row) {
             $identifiers = $this->parser->collectIdentifiers($row, $indexes);
             foreach ($identifiers as $identifier) {
-                $content[] = [$identifier, $status];
+                $line = [$identifier];
+
+                if ($status !== 'NONE') {
+                    $line[] = $status;
+                }
+
+                $content[] = $line;
+
                 $identifiersCount++;
             }
             $rowsCount++;
