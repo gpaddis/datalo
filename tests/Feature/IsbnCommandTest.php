@@ -115,4 +115,20 @@ class IsbnCommandTest extends TestCase
         $this->assertCount(1, $anyLine);
         $this->assertFalse(in_array('ACTIVE', $anyLine));
     }
+
+    /** @test */
+    public function it_displays_a_warning_if_the_option_delimiter_is_set()
+    {
+        $this->commandTester->execute([
+            'command'     => $this->command->getName(),
+            'source'      => 'tests/data/ebooks.tsv',
+            'destination' => 'tests/data/output.txt',
+            '--force'     => true,
+            '--delimiter' => "|",
+            ]);
+
+        // the output of the command in the console
+        $output = $this->commandTester->getDisplay();
+        $this->assertContains('Warning', $output);
+    }
 }

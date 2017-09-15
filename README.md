@@ -63,7 +63,7 @@ If the delimiter-autodetection does not work, maybe the file has an unusual deli
 ```
 $ datalo isbn eBook_list.csv destination_file.txt --force --status INACTIVE --delimiter |
 ```
-In this case, you will have to make sure that you are using the correct delimiter.
+In this case, you will have to make sure that you are actually using the correct delimiter to avoid unexpected or partial results.
 
-# Credits
+## Credits
 Copyright (c) 2017 Gianpiero Addis - MIT License

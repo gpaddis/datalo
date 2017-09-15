@@ -70,6 +70,10 @@ abstract class Command extends SymfonyCommand
         // Check if the parser finds columns containing identifiers.
         $indexes = $this->findIdentifierColumns($csv);
 
+        if ($input->getOption('delimiter')) {
+            $output->writeln(sprintf('<comment>Warning: make sure you are using the correct delimiter to avoid unexpected or partial results.</comment>', count($indexes)));
+        }
+
         $output->writeln(sprintf('<info>Found %s column(s) containing identifiers.</info>', count($indexes)));
         $output->writeln(sprintf('Processing file...', count($indexes)));
 
