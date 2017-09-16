@@ -1,5 +1,6 @@
 # Datalo: List Converter for the SFX Dataloader
 [![Build Status](https://travis-ci.org/gpaddis/datalo.svg?branch=master)](https://travis-ci.org/gpaddis/datalo)
+[![StyleCI](https://styleci.io/repos/101515144/shield?branch=master)](https://styleci.io/repos/101515144)
 
 **Warning: this software is in development and might change significantly before v1.0 is released.**
 
@@ -39,7 +40,7 @@ Install **datalo** globally on your system with **composer**. Open your terminal
 ```
 $ composer global require gpaddis/datalo
 ```
-After the installation, datalo will be available in any directory.
+After the installation, datalo will be available in any directory. Make sure to place the `$HOME/.composer/vendor/bin` directory (or the equivalent directory for your OS) in your $PATH so the datalo executable can be located by your system.
 
 ## Usage
 Use the command `datalo isbn` to process a **list of eBooks** (passed as the first argument, in our case: `eBook_list.csv`) and `datalo issn` for a **list of journals**. The second argument is the **destination file** you want to generate: `destination_file.txt`.
