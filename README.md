@@ -1,6 +1,5 @@
 # Datalo: List Converter for the SFX Dataloader
 [![Build Status](https://travis-ci.org/gpaddis/datalo.svg?branch=master)](https://travis-ci.org/gpaddis/datalo)
-[![StyleCI](https://styleci.io/repos/101515144/shield?branch=master)](https://styleci.io/repos/101515144)
 
 **Warning: this software is in development and might change significantly before v1.0 is released.**
 
