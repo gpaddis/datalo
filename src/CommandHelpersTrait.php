@@ -5,32 +5,6 @@ namespace Dataloader;
 trait CommandHelpersTrait
 {
     /**
-     * Return true if the file is empty.
-     *
-     * @param string $file
-     *
-     * @return bool
-     */
-    protected function isEmpty(string $file) : bool
-    {
-        return filesize($file) == 0;
-    }
-
-    /**
-     * Verify if the destination file does not exist.
-     *
-     * @param string $destination
-     *
-     * @return void
-     */
-    protected function verifyDestinationDoesntExist(string $destination)
-    {
-        if (file_exists($destination)) {
-            throw new \RuntimeException('Destination file already exists. Please choose another file name or use the --force option to overwrite it.');
-        }
-    }
-
-    /**
      * Count the number of lines in a file.
      *
      * @param string $file
@@ -114,8 +88,22 @@ trait CommandHelpersTrait
      */
     public function validateFile(string $filename)
     {
-        if (!file_exists($filename) || $this->isEmpty($filename)) {
+        if (!file_exists($filename) || filesize($filename) == 0) {
             throw new \RuntimeException('You are trying to open an invalid file. Try with another one.');
+        }
+    }
+
+    /**
+     * Verify if the destination file does not exist.
+     *
+     * @param string $destination
+     *
+     * @return void
+     */
+    protected function verifyDestinationDoesntExist(string $destination)
+    {
+        if (file_exists($destination)) {
+            throw new \RuntimeException('Destination file already exists. Please choose another file name or use the --force option to overwrite it.');
         }
     }
 }
